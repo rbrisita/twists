@@ -8,6 +8,6 @@ mix.js([
 
 mix.js([
     'resources/ts/main.ts',
-], 'public/js/app.js')
+], 'public/js/app.js');
 
 mix.sass('resources/sass/app.scss', 'public/css/app.css');
