@@ -1,66 +1,41 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="{{ app()->getLocale() }}">
+
 <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>{{ config('app.name', 'Laravel') }} {{ app()->version() }}</title>
-
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    <title>Twists</title>
 </head>
+
 <body>
-    <div id="app">
-
-        {{-- top bar  --}}
-        <div class="top-bar">
-
-          <div class="top-bar-left">
-            <ul class="dropdown menu" data-dropdown-menu>
-              <li class="menu-text">{{ config('app.name', 'Laravel') }} {{ app()->version() }}</li>
-            </ul>
-          </div>
-
-          <div class="top-bar-right">
-            <ul class="menu">
-                @if (Auth::guest())
-                    <li><a href="{{ route('login') }}">Login</a></li>
-                    <li><a href="{{ route('register') }}">Register</a></li>
-                @else
-                    <ul class="dropdown menu" data-dropdown-menu>
-                        <li>
-                            <a href="#">{{ Auth::user()->name }}</a>
-                            <ul class="menu">
-                                <li>
-                                    <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                                        Logout
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        {{ csrf_field() }}
-                                    </form>
-                                </li>
-                            </ul>
-                        </li>
+    <header id="header" data-sticky-container>
+        <nav data-sticky data-margin-top="0" data-sticky-on="small">
+            <div class="top-bar">
+                <div class="top-bar-left">
+                    <ul class="menu">
+                        <li><a href="#">Topics</a></li>
+                        <li><a href="#">Lists</a></li>
+                        <li><a href="#">Colophon</a></li>
                     </ul>
-                @endif
-            </ul>
-          </div>
+                </div>
+            </div>
+        </nav>
+    </header>
 
-        </div>
+    {{-- <app-main>Loading...</app-main> --}}
 
-        @yield('content')
+    @yield('content')
 
-    </div>
+    <footer>Twists Demo</footer>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script async type="text/javascript" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{{ mix('js/vendor.js') }}"></script>
+    <script type="text/javascript" src="{{ mix('js/app.js') }}"></script>
     <script>
         $(document).foundation();
     </script>
 </body>
+
 </html>

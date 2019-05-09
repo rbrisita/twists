@@ -9229,3 +9229,47 @@ html.is-reveal-open body {
   }
 }
 
+.cell {
+  background: rgba(175, 174, 248, 0.5);
+  outline: solid rgba(0, 0, 0, 0.1);
+}
+
+.grid-x {
+  background: rgba(151, 0, 19, 0.1);
+  outline: thick double rgba(0, 0, 0, 0.1);
+}
+
+.grid-y {
+  background: rgba(0, 151, 19, 0.1);
+  outline: thick double rgba(0, 0, 0, 0.1);
+}
+
+.topic {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  min-width: 100px;
+}
+
+.topics {
+  overflow: auto;
+}
+
+.topics__list {
+  flex-wrap: nowrap;
+  overflow: auto;
+  border-radius: 10px;
+  background: #558ada;
+}
+
+.sub-topics__list {
+  border-radius: 10px;
+  background: #558ada;
+}
+
+@media screen and (min-width: 40em) and (max-width: 63.99875em) {
+  .topics__list {
+    flex-wrap: wrap;
+  }
+}
+

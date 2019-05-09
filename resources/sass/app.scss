@@ -7,3 +7,34 @@
 
 // Bootstrap
 @import "foundation";
+
+@import "debug";
+
+.topic {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    min-width: 100px;
+}
+
+.topics {
+    overflow: auto;
+}
+
+.topics__list {
+    flex-wrap: nowrap;
+    overflow: auto;
+    border-radius: 10px;
+    background: rgb(85, 138, 218);
+}
+
+.sub-topics__list {
+    border-radius: 10px;
+    background: rgb(85, 138, 218);
+}
+
+@include breakpoint(medium only) {
+    .topics__list {
+        flex-wrap: wrap;
+    }
+}
