@@ -11,7 +11,10 @@ mix.webpackConfig({
         rules: [
             {
                 test: /\.ts$/,
-                loader: 'ts-loader'
+                loaders: [
+                    'ts-loader',
+                    'angular2-template-loader',
+                ]
             }
         ]
     },

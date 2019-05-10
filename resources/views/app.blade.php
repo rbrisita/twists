@@ -24,7 +24,7 @@
         </nav>
     </header>
 
-    @yield('content')
+    <app-main></app-main>
 
     <footer>Twists Demo</footer>
 

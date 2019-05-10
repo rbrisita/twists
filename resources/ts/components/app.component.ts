@@ -1,10 +1,8 @@
-import { Component, VERSION } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
     selector: 'app-main',
-    template: '<h1>Angular v{{ version }}</h1>'
+    templateUrl: './views/app.component.html'
 })
 
-export class AppComponent {
-    version = VERSION.full;
-}
+export class AppComponent {}

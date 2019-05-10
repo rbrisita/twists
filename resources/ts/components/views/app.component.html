@@ -1,14 +1,10 @@
-@extends('layouts.app')
-
-@section('content')
 <main class="grid-containter">
     <section class="grid-x">
         <div class="cell medium-3 medium-order-1" data-sticky-container>
             <div data-sticky data-margin-top="3" data-top-anchor="header:bottom" data-sticky-on="small">
                 <ul class="menu topics__list">
                     <li class="h1 menu-text hide-for-small-only">Topics</li>
-                    {{-- li.h2{Topic $}*6*6 --}}
-                    <li class="topic">
+                    <li class="topic" appHighlight>
                         <h2 class="show-for-small-only">Topic 1</h2>
                         <h3 class="hide-for-small-only">Topic 1</h3>
                     </li>
@@ -50,4 +46,3 @@
         </div>
     </section>
 </main>
-@endsection
