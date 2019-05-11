@@ -3,7 +3,7 @@ import 'zone.js/dist/zone';
 
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { AppModule } from './components/app.module';
+import { AppModule } from './app.module';
 
 if (process.env.ENV === 'production') {
     enableProdMode();

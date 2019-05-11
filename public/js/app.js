@@ -80062,6 +80062,50 @@ Zone.__load_patch('PromiseRejectionEvent', function (global, Zone) {
 
 /***/ }),
 
+/***/ "./resources/ts/app.module.ts":
+/*!************************************!*\
+  !*** ./resources/ts/app.module.ts ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+exports.__esModule = true;
+var core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var platform_browser_1 = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
+var app_component_1 = __webpack_require__(/*! ./components/app.component */ "./resources/ts/components/app.component.ts");
+var menu_component_1 = __webpack_require__(/*! ./components/menu.component */ "./resources/ts/components/menu.component.ts");
+var twists_component_1 = __webpack_require__(/*! ./components/twists.component */ "./resources/ts/components/twists.component.ts");
+var AppModule = /** @class */ (function () {
+    function AppModule() {
+    }
+    AppModule = __decorate([
+        core_1.NgModule({
+            imports: [
+                platform_browser_1.BrowserModule
+            ],
+            declarations: [
+                menu_component_1.MenuComponent,
+                twists_component_1.TwistsComponent,
+                app_component_1.AppComponent
+            ],
+            bootstrap: [app_component_1.AppComponent]
+        })
+    ], AppModule);
+    return AppModule;
+}());
+exports.AppModule = AppModule;
+
+
+/***/ }),
+
 /***/ "./resources/ts/components/app.component.ts":
 /*!**************************************************!*\
   !*** ./resources/ts/components/app.component.ts ***!
@@ -80095,10 +80139,10 @@ exports.AppComponent = AppComponent;
 
 /***/ }),
 
-/***/ "./resources/ts/components/app.module.ts":
-/*!***********************************************!*\
-  !*** ./resources/ts/components/app.module.ts ***!
-  \***********************************************/
+/***/ "./resources/ts/components/menu.component.ts":
+/*!***************************************************!*\
+  !*** ./resources/ts/components/menu.component.ts ***!
+  \***************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -80112,25 +80156,51 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 exports.__esModule = true;
 var core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-var platform_browser_1 = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
-var app_component_1 = __webpack_require__(/*! ./app.component */ "./resources/ts/components/app.component.ts");
-var AppModule = /** @class */ (function () {
-    function AppModule() {
+var MenuComponent = /** @class */ (function () {
+    function MenuComponent() {
     }
-    AppModule = __decorate([
-        core_1.NgModule({
-            imports: [
-                platform_browser_1.BrowserModule
-            ],
-            declarations: [
-                app_component_1.AppComponent
-            ],
-            bootstrap: [app_component_1.AppComponent]
+    MenuComponent = __decorate([
+        core_1.Component({
+            selector: 'app-menu',
+            template: __webpack_require__(/*! ./views/menu.component.html */ "./resources/ts/components/views/menu.component.html")
         })
-    ], AppModule);
-    return AppModule;
+    ], MenuComponent);
+    return MenuComponent;
 }());
-exports.AppModule = AppModule;
+exports.MenuComponent = MenuComponent;
+
+
+/***/ }),
+
+/***/ "./resources/ts/components/twists.component.ts":
+/*!*****************************************************!*\
+  !*** ./resources/ts/components/twists.component.ts ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+exports.__esModule = true;
+var core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var TwistsComponent = /** @class */ (function () {
+    function TwistsComponent() {
+    }
+    TwistsComponent = __decorate([
+        core_1.Component({
+            selector: 'app-twists',
+            template: __webpack_require__(/*! ./views/twists.component.html */ "./resources/ts/components/views/twists.component.html")
+        })
+    ], TwistsComponent);
+    return TwistsComponent;
+}());
+exports.TwistsComponent = TwistsComponent;
 
 
 /***/ }),
@@ -80142,7 +80212,29 @@ exports.AppModule = AppModule;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<main class=\"grid-containter\">\n    <section class=\"grid-x\">\n        <div class=\"cell medium-3 medium-order-1\" data-sticky-container>\n            <div data-sticky data-margin-top=\"3\" data-top-anchor=\"header:bottom\" data-sticky-on=\"small\">\n                <ul class=\"menu topics__list\">\n                    <li class=\"h1 menu-text hide-for-small-only\">Topics</li>\n                    <li class=\"topic\" appHighlight>\n                        <h2 class=\"show-for-small-only\">Topic 1</h2>\n                        <h3 class=\"hide-for-small-only\">Topic 1</h3>\n                    </li>\n                    <li class=\"topic\">\n                        <h2 class=\"show-for-small-only\">Topic 2</h2>\n                        <h3 class=\"hide-for-small-only\">Topic 2</h3>\n                    </li>\n                    <li class=\"topic\">\n                        <h2 class=\"show-for-small-only\">Topic 3</h2>\n                        <h3 class=\"hide-for-small-only\">Topic 3</h3>\n                    </li>\n                    <li class=\"topic\">\n                        <h2 class=\"show-for-small-only\">Topic 4</h2>\n                        <h3 class=\"hide-for-small-only\">Topic 4</h3>\n                    </li>\n                    <li class=\"topic\">\n                        <h2 class=\"show-for-small-only\">Topic 5</h2>\n                        <h3 class=\"hide-for-small-only\">Topic 5</h3>\n                    </li>\n                    <li class=\"topic\">\n                        <h2 class=\"show-for-small-only\">Topic 6</h2>\n                        <h3 class=\"hide-for-small-only\">Topic 6</h3>\n                    </li>\n                </ul>\n                <ul class=\"menu sub-topics__list hide-for-small-only\">\n                    <li class=\"h4 menu-text\">Sub-Topics</li>\n                    <li class=\"h5\">Sub-Topic 1</li>\n                    <li class=\"h5\">Sub-Topic 2</li>\n                    <li class=\"h5\">Sub-Topic 3</li>\n                    <li class=\"h5\">Sub-Topic 4</li>\n                    <li class=\"h5\">Sub-Topic 5</li>\n                    <li class=\"h5\">Sub-Topic 6</li>\n                </ul>\n            </div>\n        </div>\n        <div class=\"cell medium-9\">\n            <a class=\"twitter-timeline\" href=\"https://twitter.com/CryptoBull/lists/crypto\">A Twitter List by\n                CryptoBull</a>\n        </div>\n    </section>\n</main>\n";
+module.exports = "<main class=\"grid-containter\">\n    <section class=\"grid-x\">\n        <div class=\"cell medium-3 medium-order-1\" data-sticky-container>\n            <div data-sticky data-margin-top=\"3\" data-top-anchor=\"header:bottom\" data-sticky-on=\"small\">\n                <app-menu></app-menu>\n            </div>\n        </div>\n        <div class=\"cell medium-9\">\n            <app-twists></app-twists>\n        </div>\n    </section>\n</main>\n";
+
+/***/ }),
+
+/***/ "./resources/ts/components/views/menu.component.html":
+/*!***********************************************************!*\
+  !*** ./resources/ts/components/views/menu.component.html ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<ul class=\"menu topics__list\">\n    <li class=\"h1 menu-text hide-for-small-only\">Topics</li>\n    <li class=\"topic\" appHighlight>\n        <h2 class=\"show-for-small-only\">Topic 1</h2>\n        <h3 class=\"hide-for-small-only\">Topic 1</h3>\n    </li>\n    <li class=\"topic\">\n        <h2 class=\"show-for-small-only\">Topic 2</h2>\n        <h3 class=\"hide-for-small-only\">Topic 2</h3>\n    </li>\n    <li class=\"topic\">\n        <h2 class=\"show-for-small-only\">Topic 3</h2>\n        <h3 class=\"hide-for-small-only\">Topic 3</h3>\n    </li>\n    <li class=\"topic\">\n        <h2 class=\"show-for-small-only\">Topic 4</h2>\n        <h3 class=\"hide-for-small-only\">Topic 4</h3>\n    </li>\n    <li class=\"topic\">\n        <h2 class=\"show-for-small-only\">Topic 5</h2>\n        <h3 class=\"hide-for-small-only\">Topic 5</h3>\n    </li>\n    <li class=\"topic\">\n        <h2 class=\"show-for-small-only\">Topic 6</h2>\n        <h3 class=\"hide-for-small-only\">Topic 6</h3>\n    </li>\n</ul>\n<ul class=\"menu sub-topics__list hide-for-small-only\">\n    <li class=\"h4 menu-text\">Sub-Topics</li>\n    <li class=\"h5\">Sub-Topic 1</li>\n    <li class=\"h5\">Sub-Topic 2</li>\n    <li class=\"h5\">Sub-Topic 3</li>\n    <li class=\"h5\">Sub-Topic 4</li>\n    <li class=\"h5\">Sub-Topic 5</li>\n    <li class=\"h5\">Sub-Topic 6</li>\n</ul>\n";
+
+/***/ }),
+
+/***/ "./resources/ts/components/views/twists.component.html":
+/*!*************************************************************!*\
+  !*** ./resources/ts/components/views/twists.component.html ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<a class=\"twitter-timeline\" href=\"https://twitter.com/CryptoBull/lists/crypto\">A Twitter List by\n    CryptoBull</a>\n";
 
 /***/ }),
 
@@ -80160,7 +80252,7 @@ __webpack_require__(/*! core-js/es7/reflect */ "./node_modules/core-js/es7/refle
 __webpack_require__(/*! zone.js/dist/zone */ "./node_modules/zone.js/dist/zone.js");
 var core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 var platform_browser_dynamic_1 = __webpack_require__(/*! @angular/platform-browser-dynamic */ "./node_modules/@angular/platform-browser-dynamic/fesm5/platform-browser-dynamic.js");
-var app_module_1 = __webpack_require__(/*! ./components/app.module */ "./resources/ts/components/app.module.ts");
+var app_module_1 = __webpack_require__(/*! ./app.module */ "./resources/ts/app.module.ts");
 if (Object({"MIX_PUSHER_APP_KEY":"","MIX_PUSHER_APP_CLUSTER":"mt1","NODE_ENV":"development"}).ENV === 'production') {
     core_1.enableProdMode();
 }
