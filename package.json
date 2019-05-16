@@ -16,6 +16,7 @@
         "@angular/platform-browser": "^7.2.15",
         "@angular/platform-browser-dynamic": "^7.2.15",
         "@types/node": "^12.0.0",
+        "@types/twitter-for-web": "0.0.0",
         "angular2-template-loader": "^0.6.2",
         "core-js": "^2.6.5",
         "cross-env": "^5.2.0",
@@ -27,7 +28,7 @@
         "rxjs": "^6.5.1",
         "sass": "^1.20.1",
         "sass-loader": "7.*",
-        "ts-loader": "^3.5.0",
+        "ts-loader": "^4.0.0",
         "typescript": "^3.4.5",
         "vue-template-compiler": "^2.6.10",
         "zone.js": "^0.8.29"
