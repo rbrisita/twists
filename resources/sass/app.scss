@@ -33,7 +33,7 @@
     background: rgb(85, 138, 218);
 }
 
-@include breakpoint(medium only) {
+@include breakpoint(medium) {
     .topics__list {
         flex-wrap: wrap;
     }

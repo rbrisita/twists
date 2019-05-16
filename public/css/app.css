@@ -9267,7 +9267,7 @@ html.is-reveal-open body {
   background: #558ada;
 }
 
-@media screen and (min-width: 40em) and (max-width: 63.99875em) {
+@media print, screen and (min-width: 40em) {
   .topics__list {
     flex-wrap: wrap;
   }

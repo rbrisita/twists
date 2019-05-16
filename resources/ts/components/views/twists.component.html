@@ -1,2 +1,4 @@
-<a class="twitter-timeline" href="https://twitter.com/CryptoBull/lists/crypto">A Twitter List by
-    CryptoBull</a>
+<a *ngFor="let list of lists" class="twitter-timeline"
+    href="https://twitter.com/{{list.owner_screen_name}}/lists/{{list.name}}">
+    A Twitter List by {{list.owner_screen_name}}
+</a>

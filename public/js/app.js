@@ -80154,16 +80154,53 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 exports.__esModule = true;
 var core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var twist_service_1 = __webpack_require__(/*! ../services/twist.service */ "./resources/ts/services/twist.service.ts");
+/**
+ * Display given topics and lists for user selection.
+ */
 var MenuComponent = /** @class */ (function () {
-    function MenuComponent() {
+    function MenuComponent(twist_service) {
+        this.twist_service = twist_service;
     }
+    MenuComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.subscription_topics = this.twist_service.getAllTopics().subscribe(function (topics) {
+            _this.topics = topics;
+        });
+        this.subscription_selected_topic = this.twist_service.getSelectedTopic().subscribe(function (topic) {
+            _this.lists = topic.lists;
+        });
+        this.loadTopic(0);
+    };
+    MenuComponent.prototype.loadTopic = function (id) {
+        if (this.selected_topic_id !== id) {
+            this.selected_topic_id = id;
+            this.twist_service.loadTopic(id);
+        }
+    };
+    MenuComponent.prototype.scrollToList = function (widget_id) {
+        var el = document.querySelector('[data-widget-id="' + widget_id + '"]');
+        if (el) {
+            el.scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+    };
+    MenuComponent.prototype.ngOnDestroy = function () {
+        this.subscription_topics.unsubscribe();
+        this.subscription_selected_topic.unsubscribe();
+    };
     MenuComponent = __decorate([
         core_1.Component({
             selector: 'app-menu',
             template: __webpack_require__(/*! ./views/menu.component.html */ "./resources/ts/components/views/menu.component.html")
-        })
+        }),
+        __metadata("design:paramtypes", [twist_service_1.TwistService])
     ], MenuComponent);
     return MenuComponent;
 }());
@@ -80187,16 +80224,99 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 exports.__esModule = true;
 var core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var twist_service_1 = __webpack_require__(/*! ../services/twist.service */ "./resources/ts/services/twist.service.ts");
+/**
+ * The Twists Component is a collection of loaded topics which contain lists.
+ */
 var TwistsComponent = /** @class */ (function () {
-    function TwistsComponent() {
+    function TwistsComponent(twist_service) {
+        this.twist_service = twist_service;
+        this.timelines = {};
     }
+    TwistsComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.listenToSaveLoadedTopic();
+        this.subscription = this.twist_service.getSelectedTopic().subscribe(function (topic) {
+            _this.hidePreviousTopic();
+            _this.topic = topic;
+            if (_this.showSavedTopic(topic.name)) {
+                return;
+            }
+            // Load lists
+            _this.lists = topic.lists;
+            setTimeout(function () {
+                twttr.widgets.load();
+            });
+        });
+    };
+    /**
+     * Listen to Twitter loaded event and save loaded timelines (widgets).
+     */
+    TwistsComponent.prototype.listenToSaveLoadedTopic = function () {
+        var _this = this;
+        twttr.events.bind('loaded', function (event) {
+            event.widgets.forEach(function (widget) {
+                _this.timelines[_this.topic.name].push(widget);
+            });
+        });
+    };
+    /**
+     * Check to see if there was a previous topic selected.
+     */
+    TwistsComponent.prototype.hidePreviousTopic = function () {
+        if (this.topic) {
+            var timelines = this.timelines[this.topic.name];
+            if (timelines) {
+                this.hideTimelines(timelines);
+            }
+        }
+    };
+    /**
+     * Show given topic if it was saved prior.
+     * @param topic_name Name of topic to check and show.
+     * @returns True if given topic was shown.
+     */
+    TwistsComponent.prototype.showSavedTopic = function (topic_name) {
+        var timelines = this.timelines[topic_name];
+        if (timelines) {
+            this.showTimelines(timelines);
+            return true;
+        }
+        this.timelines[topic_name] = [];
+        return false;
+    };
+    /**
+     * Hide given timelines.
+     * @param elems Array of HTMLIFrameElements to hide.
+     */
+    TwistsComponent.prototype.hideTimelines = function (elems) {
+        elems.forEach(function (el) {
+            el.style.display = 'none';
+        });
+    };
+    /**
+     * Show given timelines.
+     * @param elems Array of HTMLIFrameElements to show.
+     */
+    TwistsComponent.prototype.showTimelines = function (elems) {
+        elems.forEach(function (el) {
+            el.style.display = 'inline-block';
+        });
+    };
+    TwistsComponent.prototype.ngOnDestroy = function () {
+        this.subscription.unsubscribe();
+    };
     TwistsComponent = __decorate([
         core_1.Component({
             selector: 'app-twists',
             template: __webpack_require__(/*! ./views/twists.component.html */ "./resources/ts/components/views/twists.component.html")
-        })
+        }),
+        __metadata("design:paramtypes", [twist_service_1.TwistService])
     ], TwistsComponent);
     return TwistsComponent;
 }());
@@ -80223,7 +80343,7 @@ module.exports = "<main class=\"grid-containter\">\n    <section class=\"grid-x\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ul class=\"menu topics__list\">\n    <li class=\"h1 menu-text hide-for-small-only\">Topics</li>\n    <li class=\"topic\" appHighlight>\n        <h2 class=\"show-for-small-only\">Topic 1</h2>\n        <h3 class=\"hide-for-small-only\">Topic 1</h3>\n    </li>\n    <li class=\"topic\">\n        <h2 class=\"show-for-small-only\">Topic 2</h2>\n        <h3 class=\"hide-for-small-only\">Topic 2</h3>\n    </li>\n    <li class=\"topic\">\n        <h2 class=\"show-for-small-only\">Topic 3</h2>\n        <h3 class=\"hide-for-small-only\">Topic 3</h3>\n    </li>\n    <li class=\"topic\">\n        <h2 class=\"show-for-small-only\">Topic 4</h2>\n        <h3 class=\"hide-for-small-only\">Topic 4</h3>\n    </li>\n    <li class=\"topic\">\n        <h2 class=\"show-for-small-only\">Topic 5</h2>\n        <h3 class=\"hide-for-small-only\">Topic 5</h3>\n    </li>\n    <li class=\"topic\">\n        <h2 class=\"show-for-small-only\">Topic 6</h2>\n        <h3 class=\"hide-for-small-only\">Topic 6</h3>\n    </li>\n</ul>\n<ul class=\"menu sub-topics__list hide-for-small-only\">\n    <li class=\"h4 menu-text\">Sub-Topics</li>\n    <li class=\"h5\">Sub-Topic 1</li>\n    <li class=\"h5\">Sub-Topic 2</li>\n    <li class=\"h5\">Sub-Topic 3</li>\n    <li class=\"h5\">Sub-Topic 4</li>\n    <li class=\"h5\">Sub-Topic 5</li>\n    <li class=\"h5\">Sub-Topic 6</li>\n</ul>\n";
+module.exports = "<ul class=\"menu topics__list\">\n    <li class=\"h1 menu-text hide-for-small-only\">Topics</li>\n    <li class=\"topic\" *ngFor=\"let topic of topics; let i=index\" (click)=\"loadTopic(topic.id)\">\n        <h2 class=\"show-for-small-only\">{{topic.name}}</h2>\n        <h3 class=\"hide-for-small-only\">{{topic.name}}</h3>\n    </li>\n</ul>\n<ul class=\"menu vertical sub-topics__list hide-for-small-only\">\n    <li class=\"h4 menu-text\">Sub-Topics</li>\n    <li class=\"h5\" *ngFor=\"let list of lists\" (click)=\"scrollToList('list:' + list.owner_screen_name.replace('-', '_') + ':' + list.name.replace('-', '_'))\">\n        {{list.name}}\n    </li>\n</ul>\n";
 
 /***/ }),
 
@@ -80234,7 +80354,62 @@ module.exports = "<ul class=\"menu topics__list\">\n    <li class=\"h1 menu-text
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<a class=\"twitter-timeline\" href=\"https://twitter.com/CryptoBull/lists/crypto\">A Twitter List by\n    CryptoBull</a>\n";
+module.exports = "<a *ngFor=\"let list of lists\" class=\"twitter-timeline\"\n    href=\"https://twitter.com/{{list.owner_screen_name}}/lists/{{list.name}}\">\n    A Twitter List by {{list.owner_screen_name}}\n</a>\n";
+
+/***/ }),
+
+/***/ "./resources/ts/data/crypto.ts":
+/*!*************************************!*\
+  !*** ./resources/ts/data/crypto.ts ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+exports.__esModule = true;
+exports.CRYPTO = [
+    { owner_screen_name: 'CryptoBull', name: 'Crypto' },
+];
+
+
+/***/ }),
+
+/***/ "./resources/ts/data/scitech.ts":
+/*!**************************************!*\
+  !*** ./resources/ts/data/scitech.ts ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+exports.__esModule = true;
+exports.SCITECH = [
+    { owner_screen_name: 'Mashable', name: 'Tech' },
+    { owner_screen_name: 'Scobleizer', name: 'Tech-News' },
+];
+
+
+/***/ }),
+
+/***/ "./resources/ts/data/topic.ts":
+/*!************************************!*\
+  !*** ./resources/ts/data/topic.ts ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+exports.__esModule = true;
+var crypto_1 = __webpack_require__(/*! ./crypto */ "./resources/ts/data/crypto.ts");
+var scitech_1 = __webpack_require__(/*! ./scitech */ "./resources/ts/data/scitech.ts");
+exports.TOPICS = [
+    { id: 0, name: 'Science & Tech', lists: scitech_1.SCITECH },
+    { id: 1, name: 'Crypto', lists: crypto_1.CRYPTO },
+];
+
 
 /***/ }),
 
@@ -80257,6 +80432,54 @@ if (Object({"MIX_PUSHER_APP_KEY":"","MIX_PUSHER_APP_CLUSTER":"mt1","NODE_ENV":"d
     core_1.enableProdMode();
 }
 platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(app_module_1.AppModule);
+
+
+/***/ }),
+
+/***/ "./resources/ts/services/twist.service.ts":
+/*!************************************************!*\
+  !*** ./resources/ts/services/twist.service.ts ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+exports.__esModule = true;
+var core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var rxjs_1 = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+var topic_1 = __webpack_require__(/*! ../data/topic */ "./resources/ts/data/topic.ts");
+var TwistService = /** @class */ (function () {
+    function TwistService() {
+        this.subject = new rxjs_1.BehaviorSubject(topic_1.TOPICS[0]);
+    }
+    TwistService.prototype.getAllTopics = function () {
+        return rxjs_1.of(topic_1.TOPICS);
+    };
+    TwistService.prototype.getSelectedTopic = function () {
+        return this.subject.asObservable();
+    };
+    TwistService.prototype.loadTopic = function (id) {
+        this.subject.next(topic_1.TOPICS[id]);
+    };
+    TwistService = __decorate([
+        core_1.Injectable({
+            providedIn: 'root',
+        }),
+        __metadata("design:paramtypes", [])
+    ], TwistService);
+    return TwistService;
+}());
+exports.TwistService = TwistService;
 
 
 /***/ }),
