@@ -10,11 +10,14 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
+        "@angular/animations": "^7.2.15",
         "@angular/common": "^7.2.15",
         "@angular/compiler": "^7.2.15",
         "@angular/core": "^7.2.15",
         "@angular/platform-browser": "^7.2.15",
         "@angular/platform-browser-dynamic": "^7.2.15",
+        "@types/foundation": "^5.5.30",
+        "@types/jquery": "^3.3.29",
         "@types/node": "^12.0.0",
         "@types/twitter-for-web": "0.0.0",
         "angular2-template-loader": "^0.6.2",
@@ -24,6 +27,7 @@
         "jquery": "^3.2",
         "laravel-mix": "^4.0.15",
         "lodash": "^4.17.5",
+        "motion-ui": "^2.0.3",
         "resolve-url-loader": "2.3.1",
         "rxjs": "^6.5.1",
         "sass": "^1.20.1",

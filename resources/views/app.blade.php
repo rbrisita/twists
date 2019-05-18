@@ -24,9 +24,35 @@
         </nav>
     </header>
 
-    <app-main></app-main>
+    <app-main>
+        <main class="grid-containter">
+            <section class="grid-x">
+                <div class="cell">
+                    <div class="spinner--bounce">
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                        <div class="bounce3"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </app-main>
 
-    <footer>Twists Demo</footer>
+    <div class="loader" id="loader" hidden data-reveal data-reset-on-close="true" data-close-on-click="false" data-close-on-esc="false" data-animation-in="fade-in" data-animation-out="fade-out">
+        <div class="float-center spinner">
+            <div class="float-center rect1"></div>
+            <div class="float-center rect2"></div>
+            <div class="float-center rect3"></div>
+            <div class="float-center rect4"></div>
+            <div class="float-center rect5"></div>
+            <div class="float-center rect6"></div>
+            <div class="float-center rect7"></div>
+            <div class="float-center rect8"></div>
+            <div class="float-center rect9"></div>
+            <div class="float-center rect10"></div>
+            <div class="float-center rect11"></div>
+        </div>
+    </div>
 
     <script async type="text/javascript" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     <script type="text/javascript" src="{{ mix('js/vendor.js') }}"></script>

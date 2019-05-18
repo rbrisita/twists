@@ -1,40 +1,119 @@
-
 // Fonts
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+@import url("https://fonts.googleapis.com/css?family=Raleway:300, 400, 600");
 
 // Variables
 @import "settings";
 
-// Bootstrap
+// Override variables
+$reveal-overlay-background: rgba(0, 172, 237, 0.8);
+
+// Zurb Foundation
 @import "foundation";
 
 @import "debug";
 
 .topic {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    min-width: 100px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  min-width: 100px;
 }
 
 .topics {
-    overflow: auto;
+  overflow: auto;
 }
 
 .topics__list {
-    flex-wrap: nowrap;
-    overflow: auto;
-    border-radius: 10px;
-    background: rgb(85, 138, 218);
+  flex-wrap: nowrap;
+  overflow: auto;
+  border-radius: 10px;
+  background: rgb(85, 138, 218);
 }
 
 .sub-topics__list {
-    border-radius: 10px;
-    background: rgb(85, 138, 218);
+  border-radius: 10px;
+  background: rgb(85, 138, 218);
 }
 
 @include breakpoint(medium) {
-    .topics__list {
-        flex-wrap: wrap;
-    }
+  .topics__list {
+    flex-wrap: wrap;
+  }
+}
+
+.faster {
+    animation-duration: 125ms;
+}
+
+.loader {
+  position: relative;
+  top: 50% !important;
+}
+
+/**
+* Spinkit
+**/
+.spinner {
+  width: 50%;
+  height: 2px;
+  > div {
+    background-color: #333;
+    height: 100%;
+    width: 100%;
+    margin-bottom: 5px;
+    animation: sk-stretchdelay 1.2s infinite ease-in-out;
+  }
+}
+
+@for $i from 1 through 11 {
+  .spinner .rect#{$i} {
+    $secs: -(1.3s - ($i * 0.1));
+    $w: 110% - ($i * 10);
+    animation-delay: $secs;
+    width: if($w != 0%, $w, 5%);
+  }
+}
+
+@keyframes sk-stretchdelay {
+  0%,
+  40%,
+  100% {
+    transform: scaleX(0.4);
+  }
+  20% {
+    transform: scaleX(1);
+  }
+}
+
+.spinner--bounce {
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  width: 100%;
+  > div {
+    width: 30px;
+    height: 30px;
+    background-color: #333;
+
+    border-radius: 100%;
+    display: inline-block;
+    animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  }
+  .bounce1 {
+    animation-delay: -0.32s;
+  }
+  .bounce2 {
+    animation-delay: -0.16s;
+  }
+}
+
+@keyframes sk-bouncedelay {
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
 }

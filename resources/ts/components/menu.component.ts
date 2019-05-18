@@ -3,6 +3,13 @@ import {
     OnDestroy,
     OnInit
 } from '@angular/core';
+import {
+    animate,
+    state,
+    style,
+    transition,
+    trigger
+} from '@angular/animations';
 
 import { Subscription } from 'rxjs';
 
@@ -15,17 +22,27 @@ import { TwistService } from '../services/twist.service';
  */
 @Component({
     selector: 'app-menu',
-    templateUrl: './views/menu.component.html'
+    templateUrl: './views/menu.component.html',
+    animations: [
+        trigger('fade', [
+            state('hidden', style({ opacity: 0 })),
+            state('shown', style({ opacity: 1 })),
+            transition('hidden => shown', [animate('500ms 500ms')])
+        ])
+    ]
 })
 export class MenuComponent implements OnDestroy, OnInit {
     topics: Topic[];
     lists: List[];
+    fade_state: string;
 
     private selected_topic_id: number;
     private subscription_topics: Subscription;
     private subscription_selected_topic: Subscription;
 
-    constructor(private twist_service: TwistService) { }
+    constructor(private twist_service: TwistService) {
+        this.fade_state = 'hidden';
+    }
 
     ngOnInit(): void {
         this.subscription_topics = this.twist_service.getAllTopics().subscribe(topics => {
@@ -35,7 +52,10 @@ export class MenuComponent implements OnDestroy, OnInit {
             this.lists = topic.lists;
         });
 
-        this.loadTopic(0);
+        setTimeout(() => {
+            this.fade_state = 'shown';
+            this.loadTopic(0);
+        });
     }
 
     loadTopic(id: number): void {

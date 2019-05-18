@@ -1,13 +1,16 @@
-<ul class="menu topics__list">
-    <li class="h1 menu-text hide-for-small-only">Topics</li>
-    <li class="topic" *ngFor="let topic of topics; let i=index" (click)="loadTopic(topic.id)">
-        <h2 class="show-for-small-only">{{topic.name}}</h2>
-        <h3 class="hide-for-small-only">{{topic.name}}</h3>
-    </li>
-</ul>
-<ul class="menu vertical sub-topics__list hide-for-small-only">
-    <li class="h4 menu-text">Sub-Topics</li>
-    <li class="h5" *ngFor="let list of lists" (click)="scrollToList('list:' + list.owner_screen_name.replace('-', '_') + ':' + list.name.replace('-', '_'))">
-        {{list.name}}
-    </li>
-</ul>
+<div [@fade]="fade_state">
+    <ul class="menu topics__list">
+        <li class="h1 menu-text hide-for-small-only">Topics</li>
+        <li class="topic" *ngFor="let topic of topics; let i=index" (click)="loadTopic(topic.id)">
+            <h2 class="show-for-small-only">{{topic.name}}</h2>
+            <h3 class="hide-for-small-only">{{topic.name}}</h3>
+        </li>
+    </ul>
+    <ul class="menu vertical sub-topics__list hide-for-small-only">
+        <li class="h4 menu-text">Sub-Topics</li>
+        <li class="h5" *ngFor="let list of lists"
+            (click)="scrollToList('list:' + list.owner_screen_name.replace('-', '_') + ':' + list.name.replace('-', '_'))">
+            {{list.name}}
+        </li>
+    </ul>
+</div>
