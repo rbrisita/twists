@@ -8563,21 +8563,6 @@ html.is-reveal-open body {
           animation-delay: 700ms !important;
 }
 
-.cell {
-  background: rgba(175, 174, 248, 0.5);
-  outline: solid rgba(0, 0, 0, 0.1);
-}
-
-.grid-x {
-  background: rgba(151, 0, 19, 0.1);
-  outline: thick double rgba(0, 0, 0, 0.1);
-}
-
-.grid-y {
-  background: rgba(0, 151, 19, 0.1);
-  outline: thick double rgba(0, 0, 0, 0.1);
-}
-
 .topic {
   align-items: center;
   display: flex;
@@ -8596,7 +8581,7 @@ html.is-reveal-open body {
   background: #558ada;
 }
 
-.sub-topics__list {
+.lists__list {
   border-radius: 10px;
   background: #558ada;
 }
@@ -8615,6 +8600,19 @@ html.is-reveal-open body {
 .loader {
   position: relative;
   top: 50% !important;
+}
+
+header {
+  display: block;
+  height: 55px;
+}
+
+header > nav {
+  position: fixed !important;
+}
+
+#colophon div.grid-x {
+  margin-top: 30px;
 }
 
 /**

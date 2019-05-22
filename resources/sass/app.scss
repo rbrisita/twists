@@ -10,7 +10,7 @@ $reveal-overlay-background: rgba(0, 172, 237, 0.8);
 // Zurb Foundation
 @import "foundation";
 
-@import "debug";
+// @import "debug";
 
 .topic {
   align-items: center;
@@ -30,7 +30,7 @@ $reveal-overlay-background: rgba(0, 172, 237, 0.8);
   background: rgb(85, 138, 218);
 }
 
-.sub-topics__list {
+.lists__list {
   border-radius: 10px;
   background: rgb(85, 138, 218);
 }
@@ -42,12 +42,25 @@ $reveal-overlay-background: rgba(0, 172, 237, 0.8);
 }
 
 .faster {
-    animation-duration: 125ms;
+  animation-duration: 125ms;
 }
 
 .loader {
   position: relative;
-  top: 50% !important;
+  top: 50% !important; // Force center of screen.
+}
+
+header {
+  display: block; // Give structure to element flow so side menu doesn't shift down when it populates.
+  height: 55px;
+
+  > nav {
+    position: fixed !important; // Important otherwise top-bar will disappear on overlay showing.
+  }
+}
+
+#colophon div.grid-x {
+  margin-top: 30px; // Give space for closing button.
 }
 
 /**
@@ -63,14 +76,14 @@ $reveal-overlay-background: rgba(0, 172, 237, 0.8);
     margin-bottom: 5px;
     animation: sk-stretchdelay 1.2s infinite ease-in-out;
   }
-}
 
-@for $i from 1 through 11 {
-  .spinner .rect#{$i} {
-    $secs: -(1.3s - ($i * 0.1));
-    $w: 110% - ($i * 10);
-    animation-delay: $secs;
-    width: if($w != 0%, $w, 5%);
+  @for $i from 1 through 11 {
+    & .rect#{$i} {
+      $secs: -(1.3s - ($i * 0.1));
+      $w: 110% - ($i * 10);
+      animation-delay: $secs;
+      width: if($w != 0%, $w, 5%);
+    }
   }
 }
 

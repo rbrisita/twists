@@ -86909,6 +86909,9 @@ var core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/c
 var platform_browser_1 = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
 var animations_1 = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
 var app_component_1 = __webpack_require__(/*! ./components/app.component */ "./resources/ts/components/app.component.ts");
+var colophon_component_1 = __webpack_require__(/*! ./components/colophon.component */ "./resources/ts/components/colophon.component.ts");
+var favorites_component_1 = __webpack_require__(/*! ./components/favorites.component */ "./resources/ts/components/favorites.component.ts");
+var header_component_1 = __webpack_require__(/*! ./components/header.component */ "./resources/ts/components/header.component.ts");
 var menu_component_1 = __webpack_require__(/*! ./components/menu.component */ "./resources/ts/components/menu.component.ts");
 var twists_component_1 = __webpack_require__(/*! ./components/twists.component */ "./resources/ts/components/twists.component.ts");
 var AppModule = /** @class */ (function () {
@@ -86921,9 +86924,12 @@ var AppModule = /** @class */ (function () {
                 animations_1.BrowserAnimationsModule
             ],
             declarations: [
+                app_component_1.AppComponent,
+                colophon_component_1.ColophonComponent,
+                favorites_component_1.FavoritesComponent,
+                header_component_1.HeaderComponent,
                 menu_component_1.MenuComponent,
-                twists_component_1.TwistsComponent,
-                app_component_1.AppComponent
+                twists_component_1.TwistsComponent
             ],
             bootstrap: [app_component_1.AppComponent]
         })
@@ -86964,6 +86970,124 @@ var AppComponent = /** @class */ (function () {
     return AppComponent;
 }());
 exports.AppComponent = AppComponent;
+
+
+/***/ }),
+
+/***/ "./resources/ts/components/colophon.component.ts":
+/*!*******************************************************!*\
+  !*** ./resources/ts/components/colophon.component.ts ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+exports.__esModule = true;
+var core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var ColophonComponent = /** @class */ (function () {
+    function ColophonComponent() {
+    }
+    ColophonComponent = __decorate([
+        core_1.Component({
+            selector: 'app-colophon',
+            template: __webpack_require__(/*! ./views/colophon.component.html */ "./resources/ts/components/views/colophon.component.html")
+        })
+    ], ColophonComponent);
+    return ColophonComponent;
+}());
+exports.ColophonComponent = ColophonComponent;
+
+
+/***/ }),
+
+/***/ "./resources/ts/components/favorites.component.ts":
+/*!********************************************************!*\
+  !*** ./resources/ts/components/favorites.component.ts ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+exports.__esModule = true;
+var core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var FavoritesComponent = /** @class */ (function () {
+    function FavoritesComponent() {
+    }
+    FavoritesComponent = __decorate([
+        core_1.Component({
+            selector: 'app-favorites',
+            template: __webpack_require__(/*! ./views/favorites.component.html */ "./resources/ts/components/views/favorites.component.html")
+        })
+    ], FavoritesComponent);
+    return FavoritesComponent;
+}());
+exports.FavoritesComponent = FavoritesComponent;
+
+
+/***/ }),
+
+/***/ "./resources/ts/components/header.component.ts":
+/*!*****************************************************!*\
+  !*** ./resources/ts/components/header.component.ts ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+exports.__esModule = true;
+var core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var animations_1 = __webpack_require__(/*! @angular/animations */ "./node_modules/@angular/animations/fesm5/animations.js");
+var HeaderComponent = /** @class */ (function () {
+    function HeaderComponent() {
+        this.fade_state = 'hidden';
+    }
+    HeaderComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        setTimeout(function () {
+            _this.fade_state = 'shown';
+        });
+    };
+    HeaderComponent = __decorate([
+        core_1.Component({
+            selector: 'app-header',
+            template: __webpack_require__(/*! ./views/header.component.html */ "./resources/ts/components/views/header.component.html"),
+            animations: [
+                animations_1.trigger('fade', [
+                    animations_1.state('hidden', animations_1.style({ opacity: 0 })),
+                    animations_1.state('shown', animations_1.style({ opacity: 1 })),
+                    animations_1.transition('hidden => shown', [animations_1.animate('500ms')])
+                ])
+            ]
+        }),
+        __metadata("design:paramtypes", [])
+    ], HeaderComponent);
+    return HeaderComponent;
+}());
+exports.HeaderComponent = HeaderComponent;
 
 
 /***/ }),
@@ -87020,7 +87144,16 @@ var MenuComponent = /** @class */ (function () {
     MenuComponent.prototype.scrollToList = function (widget_id) {
         var el = document.querySelector('[data-widget-id="' + widget_id + '"]');
         if (el) {
-            el.scrollIntoView({
+            var height = 0;
+            var header = document.querySelector('header');
+            if (header) {
+                height = header.offsetHeight;
+            }
+            var rect = el.getBoundingClientRect();
+            var top_1 = window.scrollY + rect.top;
+            window.scrollTo({
+                top: (top_1 - height),
+                left: rect.left,
                 behavior: 'smooth'
             });
         }
@@ -87037,7 +87170,7 @@ var MenuComponent = /** @class */ (function () {
                 animations_1.trigger('fade', [
                     animations_1.state('hidden', animations_1.style({ opacity: 0 })),
                     animations_1.state('shown', animations_1.style({ opacity: 1 })),
-                    animations_1.transition('hidden => shown', [animations_1.animate('500ms 500ms')])
+                    animations_1.transition('hidden => shown', [animations_1.animate('500ms')])
                 ])
             ]
         }),
@@ -87246,7 +87379,40 @@ exports.TwistsComponent = TwistsComponent;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<main class=\"grid-containter\">\n    <section class=\"grid-x\">\n        <div class=\"cell medium-3 medium-order-1\" data-sticky-container>\n            <div data-sticky data-margin-top=\"3\" data-top-anchor=\"header:bottom\" data-sticky-on=\"small\">\n                <app-menu></app-menu>\n            </div>\n        </div>\n        <div class=\"cell medium-9\">\n            <app-twists></app-twists>\n        </div>\n    </section>\n</main>\n";
+module.exports = "<header id=\"header\" data-sticky-container>\n    <nav data-sticky data-margin-top=\"0\" style=\"width:100%\" data-sticky-on=\"small\">\n        <app-header></app-header>\n    </nav>\n</header>\n<main class=\"grid-container full\">\n    <section class=\"grid-x\">\n        <div class=\"cell medium-3 medium-order-1\" data-sticky-container>\n            <div data-sticky data-margin-top=\"3\" data-top-anchor=\"header:bottom\" data-sticky-on=\"small\">\n                <app-menu></app-menu>\n            </div>\n        </div>\n        <div class=\"cell medium-9\">\n            <app-twists></app-twists>\n        </div>\n    </section>\n</main>\n<app-favorites></app-favorites>\n<app-colophon></app-colophon>\n";
+
+/***/ }),
+
+/***/ "./resources/ts/components/views/colophon.component.html":
+/*!***************************************************************!*\
+  !*** ./resources/ts/components/views/colophon.component.html ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div id=\"colophon\" class=\"reveal large\" data-reveal data-animation-in=\"slide-in-up\" data-animation-out=\"slide-out-down\">\n    <button class=\"close-button\" data-close aria-label=\"Close modal\" type=\"button\">\n        <span aria-hidden=\"true\">&times;</span>\n    </button>\n\n    <div class=\"grid-x\">\n        <div class=\"cell text-justify\">\n            This is an example web application written using Angular with a PHP backend and Redis data store.\n            It exposes Twitter List Timeines to unregistered users. Users can save their favorite topics locally\n            with cookies. Due to Twitter's API polling, the list timelines are static for a better\n            user experience. Refresh web page to get updated timelines.\n        </div>\n    </div>\n    <div class=\"grid-x\">\n        <div class=\"cell small-5 small-offset-3 medium-4 medium-offset-0\">\n            <h5>CSS</h5>\n            <ul>\n                <li>Foundation 6.5.3</li>\n            </ul>\n        </div>\n        <div class=\"cell small-5 small-offset-3 medium-4 medium-offset-0\">\n            <h5>JS</h5>\n            <ul>\n                <li>Angular 7.2.15</li>\n                <li>Twitter</li>\n                <li>Foundation</li>\n            </ul>\n        </div>\n        <div class=\"cell small-5 small-offset-3 medium-4 medium-offset-0\">\n            <h5>PHP</h5>\n            <ul>\n                <li>Laravel 5.8</li>\n                <li>Blade</li>\n                <li>Redis</li>\n            </ul>\n        </div>\n    </div>\n</div>\n";
+
+/***/ }),
+
+/***/ "./resources/ts/components/views/favorites.component.html":
+/*!****************************************************************!*\
+  !*** ./resources/ts/components/views/favorites.component.html ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div id=\"favorites\" class=\"reveal large\" data-reveal data-animation-in=\"slide-in-up\" data-animation-out=\"slide-out-down\">\n    <button class=\"close-button\" data-close aria-label=\"Close modal\" type=\"button\">\n        <span aria-hidden=\"true\">&times;</span>\n    </button>\n    Favorites\n</div>\n";
+
+/***/ }),
+
+/***/ "./resources/ts/components/views/header.component.html":
+/*!*************************************************************!*\
+  !*** ./resources/ts/components/views/header.component.html ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div [@fade]=\"fade_state\" class=\"top-bar\">\n    <div class=\"top-bar-left\">\n        <ul class=\"menu\">\n            <li><a href=\"#\" data-open=\"favorites\">Favorites</a></li>\n            <li><a href=\"#\" data-open=\"colophon\">Colophon</a></li>\n        </ul>\n    </div>\n</div>\n";
 
 /***/ }),
 
@@ -87257,7 +87423,7 @@ module.exports = "<main class=\"grid-containter\">\n    <section class=\"grid-x\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div [@fade]=\"fade_state\">\n    <ul class=\"menu topics__list\">\n        <li class=\"h1 menu-text hide-for-small-only\">Topics</li>\n        <li class=\"topic\" *ngFor=\"let topic of topics; let i=index\" (click)=\"loadTopic(topic.id)\">\n            <h2 class=\"show-for-small-only\">{{topic.name}}</h2>\n            <h3 class=\"hide-for-small-only\">{{topic.name}}</h3>\n        </li>\n    </ul>\n    <ul class=\"menu vertical sub-topics__list hide-for-small-only\">\n        <li class=\"h4 menu-text\">Sub-Topics</li>\n        <li class=\"h5\" *ngFor=\"let list of lists\"\n            (click)=\"scrollToList('list:' + list.owner_screen_name.replace('-', '_') + ':' + list.name.replace('-', '_'))\">\n            {{list.name}}\n        </li>\n    </ul>\n</div>\n";
+module.exports = "<div [@fade]=\"fade_state\">\n    <ul class=\"menu topics__list\">\n        <li class=\"h1 menu-text hide-for-small-only\">Topics</li>\n        <li class=\"topic\" *ngFor=\"let topic of topics; let i=index\" (click)=\"loadTopic(topic.id)\">\n            <h2 class=\"show-for-small-only\">{{topic.name}}</h2>\n            <h3 class=\"hide-for-small-only\">{{topic.name}}</h3>\n        </li>\n    </ul>\n    <ul class=\"menu vertical lists__list hide-for-small-only\">\n        <li class=\"h4 menu-text\">Lists</li>\n        <li class=\"h5\" *ngFor=\"let list of lists\"\n            (click)=\"scrollToList('list:' + list.owner_screen_name.replace('-', '_') + ':' + list.name.replace('-', '_'))\">\n            {{list.name}}\n        </li>\n    </ul>\n</div>\n";
 
 /***/ }),
 
@@ -87268,7 +87434,7 @@ module.exports = "<div [@fade]=\"fade_state\">\n    <ul class=\"menu topics__lis
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div [@fade]=\"fade_state\" (@fade.done)=\"onAnimationEvent($event)\">\n    <a *ngFor=\"let list of lists\" class=\"twitter-timeline\"\n        href=\"https://twitter.com/{{list.owner_screen_name}}/lists/{{list.name}}\">\n        A Twitter List by {{list.owner_screen_name}}\n    </a>\n</div>\n";
+module.exports = "<div [@fade]=\"fade_state\" (@fade.done)=\"onAnimationEvent($event)\">\n    <a *ngFor=\"let list of lists\" class=\"twitter-timeline\" data-tweet-limit=20 data-show-replies=true\n        href=\"https://twitter.com/{{list.owner_screen_name}}/lists/{{list.name}}\">\n        A Twitter List by {{list.owner_screen_name}}\n    </a>\n</div>\n";
 
 /***/ }),
 

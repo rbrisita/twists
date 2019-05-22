@@ -27,7 +27,7 @@ import { TwistService } from '../services/twist.service';
         trigger('fade', [
             state('hidden', style({ opacity: 0 })),
             state('shown', style({ opacity: 1 })),
-            transition('hidden => shown', [animate('500ms 500ms')])
+            transition('hidden => shown', [animate('500ms')])
         ])
     ]
 })
@@ -66,9 +66,19 @@ export class MenuComponent implements OnDestroy, OnInit {
     }
 
     scrollToList(widget_id: string): void {
-        let el: Element | null = document.querySelector('[data-widget-id="' + widget_id + '"]');
+        const el: HTMLElement | null = document.querySelector('[data-widget-id="' + widget_id + '"]');
         if (el) {
-            el.scrollIntoView({
+            let height: number = 0;
+            const header: HTMLElement | null = document.querySelector('header');
+            if (header) {
+                height = header.offsetHeight;
+            }
+
+            const rect: DOMRect | ClientRect = el.getBoundingClientRect();
+            let top: number = window.scrollY + rect.top;
+            window.scrollTo({
+                top: (top - height),
+                left: rect.left,
                 behavior: 'smooth'
             });
         }

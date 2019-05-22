@@ -10,22 +10,8 @@
 </head>
 
 <body>
-    <header id="header" data-sticky-container>
-        <nav data-sticky data-margin-top="0" data-sticky-on="small">
-            <div class="top-bar">
-                <div class="top-bar-left">
-                    <ul class="menu">
-                        <li><a href="#">Topics</a></li>
-                        <li><a href="#">Lists</a></li>
-                        <li><a href="#">Colophon</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-
     <app-main>
-        <main class="grid-containter">
+        <main class="grid-container">
             <section class="grid-x">
                 <div class="cell">
                     <div class="spinner--bounce">

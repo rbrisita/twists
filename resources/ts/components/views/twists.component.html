@@ -1,5 +1,5 @@
 <div [@fade]="fade_state" (@fade.done)="onAnimationEvent($event)">
-    <a *ngFor="let list of lists" class="twitter-timeline"
+    <a *ngFor="let list of lists" class="twitter-timeline" data-tweet-limit=20 data-show-replies=true
         href="https://twitter.com/{{list.owner_screen_name}}/lists/{{list.name}}">
         A Twitter List by {{list.owner_screen_name}}
     </a>

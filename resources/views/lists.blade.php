@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <main class="grid-containter">
+    <main class="grid-container">
         <section class="cell-block-container topics">
             <div class="grid-x">
                 <div class="cell topic small-3"><h2>Topic 1</h2></div>

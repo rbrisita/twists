@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<main class="grid-containter">
+<main class="grid-container">
     <section class="grid-x">
         <div class="cell medium-3 medium-order-1" data-sticky-container>
             <div data-sticky data-margin-top="3" data-top-anchor="header:bottom" data-sticky-on="small">
