@@ -4,45 +4,30 @@
 // Variables
 @import "settings";
 
-// Override variables
-$reveal-overlay-background: rgba(0, 172, 237, 0.8);
+/**
+* Override SCSS Foundation Variables
+**/
+$base_color: black;
+$body-background: $topbar-background;
+$anchor-color: $base_color;
 
 // Zurb Foundation
 @import "foundation";
 
-// @import "debug";
-
-.topic {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-  min-width: 100px;
-}
-
-.topics {
-  overflow: auto;
-}
-
-.topics__list {
-  flex-wrap: nowrap;
-  overflow: auto;
-  border-radius: 10px;
-  background: rgb(85, 138, 218);
-}
-
-.lists__list {
-  border-radius: 10px;
-  background: rgb(85, 138, 218);
-}
-
-@include breakpoint(medium) {
-  .topics__list {
-    flex-wrap: wrap;
+/**
+* Override Foundation
+**/
+.menu {
+  > .menu-text {
+    user-select: none;
   }
 }
 
-.faster {
-  animation-duration: 125ms;
+/**
+* Custom
+**/
+*:focus {
+  outline: none;
 }
 
 .loader {
@@ -52,7 +37,8 @@ $reveal-overlay-background: rgba(0, 172, 237, 0.8);
 
 header {
   display: block; // Give structure to element flow so side menu doesn't shift down when it populates.
-  height: 55px;
+  min-height: 55px;
+  z-index: 1;
 
   > nav {
     position: fixed !important; // Important otherwise top-bar will disappear on overlay showing.
@@ -64,13 +50,121 @@ header {
 }
 
 /**
+* Menu
+**/
+.topic {
+  font-variant: small-caps;
+}
+
+.list--selected {
+  background-color: #d3d3d3;
+  border-radius: 2px;
+  box-shadow: 0px 14px 13px -10px rgba(0, 0, 0, 1);
+}
+
+.topics {
+  overflow: auto;
+}
+
+.topics__list,
+.lists__list {
+  background: $topbar-background;
+}
+
+.topics__list {
+  flex-wrap: nowrap;
+  overflow: auto;
+}
+
+@include breakpoint(medium) {
+  .topics__list {
+    flex-wrap: wrap;
+  }
+
+  .list {
+    padding-left: 2em;
+  }
+
+  .topic {
+    padding-left: 1em;
+  }
+}
+
+#off-canvas {
+  &.position-right {
+    overflow-y: unset;
+  }
+
+  > button {
+    color: $base_color;
+    z-index: 1;
+  }
+}
+
+$menu-hover-lines-transition: all 0.35s ease;
+$menu-hover-lines-border-width: 3px;
+
+.menu-hover-lines {
+  transition: $menu-hover-lines-transition;
+
+  li a {
+    padding: 0.75rem 0;
+    color: $base_color;
+    position: relative;
+    margin-left: 1rem;
+  }
+
+  li:first-child a {
+    margin-left: 0;
+  }
+
+  li.topic--selected > a {
+    background-color: transparent;
+  }
+
+  a:before,
+  a::after {
+    height: $menu-hover-lines-border-width;
+    position: absolute;
+    content: "";
+    transition: $menu-hover-lines-transition;
+    background-color: $primary-color;
+    width: 0;
+  }
+
+  a::before {
+    top: 0;
+    left: 0;
+  }
+
+  a::after {
+    bottom: 0;
+    right: 0;
+  }
+
+  a:hover,
+  li.topic--selected > a {
+    color: $body-font-color;
+    transition: $menu-hover-lines-transition;
+  }
+
+  a:hover::before,
+  .topic--selected a::before,
+  a:hover::after,
+  .topic--selected a::after {
+    width: 100%;
+  }
+}
+
+/**
 * Spinkit
 **/
-.spinner {
-  width: 50%;
+.spinner__twist {
   height: 2px;
+  width: 50%;
+
   > div {
-    background-color: #333;
+    background-color: $base_color;
     height: 100%;
     width: 100%;
     margin-bottom: 5px;
@@ -98,23 +192,26 @@ header {
   }
 }
 
-.spinner--bounce {
+.spinner__bounce {
   position: absolute;
   text-align: center;
   top: 50%;
   width: 100%;
+
   > div {
     width: 30px;
     height: 30px;
-    background-color: #333;
+    background-color: $base_color;
 
     border-radius: 100%;
     display: inline-block;
     animation: sk-bouncedelay 1.4s infinite ease-in-out both;
   }
+
   .bounce1 {
     animation-delay: -0.32s;
   }
+
   .bounce2 {
     animation-delay: -0.16s;
   }

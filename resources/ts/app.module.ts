@@ -6,7 +6,8 @@ import { AppComponent } from './components/app.component';
 import { ColophonComponent } from './components/colophon.component';
 import { FavoritesComponent } from './components/favorites.component';
 import { HeaderComponent } from './components/header.component';
-import { MenuComponent } from './components/menu.component';
+import { ListsComponent } from './components/lists.component';
+import { TopicsComponent } from './components/topics.component';
 import { TwistsComponent } from './components/twists.component';
 
 @NgModule({
@@ -19,7 +20,8 @@ import { TwistsComponent } from './components/twists.component';
         ColophonComponent,
         FavoritesComponent,
         HeaderComponent,
-        MenuComponent,
+        ListsComponent,
+        TopicsComponent,
         TwistsComponent
     ],
     bootstrap: [AppComponent]

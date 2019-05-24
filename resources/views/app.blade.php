@@ -14,7 +14,7 @@
         <main class="grid-container">
             <section class="grid-x">
                 <div class="cell">
-                    <div class="spinner--bounce">
+                    <div class="spinner__bounce">
                         <div class="bounce1"></div>
                         <div class="bounce2"></div>
                         <div class="bounce3"></div>
@@ -24,8 +24,8 @@
         </main>
     </app-main>
 
-    <div class="loader" id="loader" hidden data-reveal data-reset-on-close="true" data-close-on-click="false" data-close-on-esc="false" data-animation-in="fade-in" data-animation-out="fade-out">
-        <div class="float-center spinner">
+    <div id="loader" class="loader" hidden data-reveal data-reset-on-close="true" data-close-on-click="false" data-close-on-esc="false" data-animation-in="fade-in" data-animation-out="fade-out">
+        <div class="float-center spinner__twist">
             <div class="float-center rect1"></div>
             <div class="float-center rect2"></div>
             <div class="float-center rect3"></div>

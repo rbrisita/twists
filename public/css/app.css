@@ -1,6 +1,10 @@
 @import url(https://fonts.googleapis.com/css?family=Raleway:300, 400, 600);@charset "UTF-8";
 
 /**
+* Override SCSS Foundation Variables
+**/
+
+/**
  * Foundation for Sites by ZURB
  * Version 6.5.3
  * foundation.zurb.com
@@ -215,7 +219,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  background: #fefefe;
+  background: #e6e6e6;
   font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
   font-weight: normal;
   line-height: 1.5;
@@ -799,7 +803,7 @@ h6,
 
 a {
   line-height: inherit;
-  color: #1779ba;
+  color: black;
   text-decoration: none;
   cursor: pointer;
 }
@@ -7142,7 +7146,7 @@ html.is-reveal-open body {
   left: 0;
   z-index: 1005;
   display: none;
-  background-color: rgba(0, 172, 237, 0.8);
+  background-color: rgba(10, 10, 10, 0.45);
   overflow-y: auto;
 }
 
@@ -8563,38 +8567,23 @@ html.is-reveal-open body {
           animation-delay: 700ms !important;
 }
 
-.topic {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-  min-width: 100px;
+/**
+* Override Foundation
+**/
+
+.menu > .menu-text {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 
-.topics {
-  overflow: auto;
-}
+/**
+* Custom
+**/
 
-.topics__list {
-  flex-wrap: nowrap;
-  overflow: auto;
-  border-radius: 10px;
-  background: #558ada;
-}
-
-.lists__list {
-  border-radius: 10px;
-  background: #558ada;
-}
-
-@media print, screen and (min-width: 40em) {
-  .topics__list {
-    flex-wrap: wrap;
-  }
-}
-
-.faster {
-  -webkit-animation-duration: 125ms;
-          animation-duration: 125ms;
+*:focus {
+  outline: none;
 }
 
 .loader {
@@ -8604,7 +8593,8 @@ html.is-reveal-open body {
 
 header {
   display: block;
-  height: 55px;
+  min-height: 55px;
+  z-index: 1;
 }
 
 header > nav {
@@ -8616,16 +8606,119 @@ header > nav {
 }
 
 /**
+* Menu
+**/
+
+.topic {
+  font-variant: small-caps;
+}
+
+.list--selected {
+  background-color: #d3d3d3;
+  border-radius: 2px;
+  box-shadow: 0px 14px 13px -10px black;
+}
+
+.topics {
+  overflow: auto;
+}
+
+.topics__list,
+.lists__list {
+  background: #e6e6e6;
+}
+
+.topics__list {
+  flex-wrap: nowrap;
+  overflow: auto;
+}
+
+@media print, screen and (min-width: 40em) {
+  .topics__list {
+    flex-wrap: wrap;
+  }
+
+  .list {
+    padding-left: 2em;
+  }
+
+  .topic {
+    padding-left: 1em;
+  }
+}
+
+#off-canvas.position-right {
+  overflow-y: unset;
+}
+
+#off-canvas > button {
+  color: black;
+  z-index: 1;
+}
+
+.menu-hover-lines {
+  transition: all 0.35s ease;
+}
+
+.menu-hover-lines li a {
+  padding: 0.75rem 0;
+  color: black;
+  position: relative;
+  margin-left: 1rem;
+}
+
+.menu-hover-lines li:first-child a {
+  margin-left: 0;
+}
+
+.menu-hover-lines li.topic--selected > a {
+  background-color: transparent;
+}
+
+.menu-hover-lines a:before,
+.menu-hover-lines a::after {
+  height: 3px;
+  position: absolute;
+  content: "";
+  transition: all 0.35s ease;
+  background-color: #1779ba;
+  width: 0;
+}
+
+.menu-hover-lines a::before {
+  top: 0;
+  left: 0;
+}
+
+.menu-hover-lines a::after {
+  bottom: 0;
+  right: 0;
+}
+
+.menu-hover-lines a:hover,
+.menu-hover-lines li.topic--selected > a {
+  color: #0a0a0a;
+  transition: all 0.35s ease;
+}
+
+.menu-hover-lines a:hover::before,
+.menu-hover-lines .topic--selected a::before,
+.menu-hover-lines a:hover::after,
+.menu-hover-lines .topic--selected a::after {
+  width: 100%;
+}
+
+/**
 * Spinkit
 **/
 
-.spinner {
-  width: 50%;
+.spinner__twist {
   height: 2px;
+  width: 50%;
 }
 
-.spinner > div {
-  background-color: #333;
+.spinner__twist > div {
+  background-color: black;
   height: 100%;
   width: 100%;
   margin-bottom: 5px;
@@ -8633,67 +8726,67 @@ header > nav {
           animation: sk-stretchdelay 1.2s infinite ease-in-out;
 }
 
-.spinner .rect1 {
+.spinner__twist .rect1 {
   -webkit-animation-delay: -1.2s;
           animation-delay: -1.2s;
   width: 100%;
 }
 
-.spinner .rect2 {
+.spinner__twist .rect2 {
   -webkit-animation-delay: -1.1s;
           animation-delay: -1.1s;
   width: 90%;
 }
 
-.spinner .rect3 {
+.spinner__twist .rect3 {
   -webkit-animation-delay: -1s;
           animation-delay: -1s;
   width: 80%;
 }
 
-.spinner .rect4 {
+.spinner__twist .rect4 {
   -webkit-animation-delay: -0.9s;
           animation-delay: -0.9s;
   width: 70%;
 }
 
-.spinner .rect5 {
+.spinner__twist .rect5 {
   -webkit-animation-delay: -0.8s;
           animation-delay: -0.8s;
   width: 60%;
 }
 
-.spinner .rect6 {
+.spinner__twist .rect6 {
   -webkit-animation-delay: -0.7s;
           animation-delay: -0.7s;
   width: 50%;
 }
 
-.spinner .rect7 {
+.spinner__twist .rect7 {
   -webkit-animation-delay: -0.6s;
           animation-delay: -0.6s;
   width: 40%;
 }
 
-.spinner .rect8 {
+.spinner__twist .rect8 {
   -webkit-animation-delay: -0.5s;
           animation-delay: -0.5s;
   width: 30%;
 }
 
-.spinner .rect9 {
+.spinner__twist .rect9 {
   -webkit-animation-delay: -0.4s;
           animation-delay: -0.4s;
   width: 20%;
 }
 
-.spinner .rect10 {
+.spinner__twist .rect10 {
   -webkit-animation-delay: -0.3s;
           animation-delay: -0.3s;
   width: 10%;
 }
 
-.spinner .rect11 {
+.spinner__twist .rect11 {
   -webkit-animation-delay: -0.2s;
           animation-delay: -0.2s;
   width: 5%;
@@ -8723,29 +8816,29 @@ header > nav {
   }
 }
 
-.spinner--bounce {
+.spinner__bounce {
   position: absolute;
   text-align: center;
   top: 50%;
   width: 100%;
 }
 
-.spinner--bounce > div {
+.spinner__bounce > div {
   width: 30px;
   height: 30px;
-  background-color: #333;
+  background-color: black;
   border-radius: 100%;
   display: inline-block;
   -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
           animation: sk-bouncedelay 1.4s infinite ease-in-out both;
 }
 
-.spinner--bounce .bounce1 {
+.spinner__bounce .bounce1 {
   -webkit-animation-delay: -0.32s;
           animation-delay: -0.32s;
 }
 
-.spinner--bounce .bounce2 {
+.spinner__bounce .bounce2 {
   -webkit-animation-delay: -0.16s;
           animation-delay: -0.16s;
 }

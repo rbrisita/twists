@@ -79,9 +79,8 @@ export class TwistsComponent implements OnDestroy, OnInit {
                     } else {
                         this.loadLists(topic.lists);
                     }
-
                 };
-            } else {
+            } else { // First time loading, so nothing to hide.
                 this.fade_cb = function (event: AnimationEvent) {
                     this.loadLists(topic.lists);
                 };
