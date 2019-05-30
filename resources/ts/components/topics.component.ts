@@ -4,8 +4,8 @@ import {
     OnInit
 } from '@angular/core';
 
-import { Subscription } from 'rxjs';
-import 'foundation-sites';
+import { EMPTY, Subscription } from 'rxjs';
+import '../../../node_modules/foundation-sites/dist/js/foundation';
 
 import { Topic } from '../models/topic';
 import { TwistService } from '../services/twist.service';
@@ -19,11 +19,15 @@ import { TwistService } from '../services/twist.service';
 })
 export class TopicsComponent implements OnDestroy, OnInit {
     topics: Topic[];
-    selected_topic_id: number;
+    selected_topic_id: number | null;
 
     private subscription_topics: Subscription;
 
-    constructor(private twist_service: TwistService) { }
+    constructor(private twist_service: TwistService) {
+        this.topics = [];
+        this.selected_topic_id = null;
+        this.subscription_topics = EMPTY.subscribe();
+    }
 
     ngOnInit(): void {
         this.subscription_topics = this.twist_service.getAllTopics().subscribe(topics => {
@@ -45,7 +49,7 @@ export class TopicsComponent implements OnDestroy, OnInit {
 
             // Make sure we view is all the way scrolled to the top.
             if (window.scrollY) {
-                const scroll_listener = (ev: Event) => {
+                const scroll_listener = () => {
                     if (window.scrollY === 0) {
                         window.removeEventListener('scroll', scroll_listener, false);
                         this.twist_service.loadTopic(id);

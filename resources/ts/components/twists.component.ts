@@ -14,7 +14,7 @@ import {
     trigger
 } from '@angular/animations';
 
-import { Subscription } from 'rxjs';
+import { EMPTY, Subscription } from 'rxjs';
 
 import { List } from '../models/list';
 import { Topic } from '../models/topic'
@@ -38,7 +38,7 @@ import { TwistService } from '../services/twist.service';
 export class TwistsComponent implements OnDestroy, OnInit {
     topic: Topic;
     lists: List[];
-    fade_state: string;
+    fade_state: string | null;
     fade_cb: (event: AnimationEvent) => void;
 
     private timelines: { [key: string]: HTMLIFrameElement[] };
@@ -49,7 +49,16 @@ export class TwistsComponent implements OnDestroy, OnInit {
         private change_detector: ChangeDetectorRef,
         private twist_service: TwistService
     ) {
+        this.topic = {
+            id: -1,
+            name: '',
+            lists: []
+        };
+        this.lists = [];
+        this.fade_state = null;
+        this.fade_cb = ()=>{};
         this.timelines = {};
+        this.subscription = EMPTY.subscribe();
     }
 
     ngOnInit(): void {
@@ -65,14 +74,14 @@ export class TwistsComponent implements OnDestroy, OnInit {
 
             if (current_timelines.length) {
                 // We are currently showing timelines, start fading out, and hide them when done
-                this.fade_cb = function (event: AnimationEvent) {
+                this.fade_cb = function () {
                     this.hideTimelines(current_timelines);
 
                     // We should be faded out now, show timelines and fade back in.
                     if (saved_timelines.length) {
                         this.showTimelines(saved_timelines);
 
-                        this.fade_cb = function (event: AnimationEvent) {
+                        this.fade_cb = function () {
                             this.hideLoader();
                         };
                         this.fade_state = 'in';
@@ -81,7 +90,7 @@ export class TwistsComponent implements OnDestroy, OnInit {
                     }
                 };
             } else { // First time loading, so nothing to hide.
-                this.fade_cb = function (event: AnimationEvent) {
+                this.fade_cb = function () {
                     this.loadLists(topic.lists);
                 };
             }
@@ -109,7 +118,7 @@ export class TwistsComponent implements OnDestroy, OnInit {
                 });
 
                 if (widgets.length) {
-                    this.fade_cb = function (event: AnimationEvent) {
+                    this.fade_cb = function () {
                         this.hideLoader();
                     };
                     Promise.resolve(null).then(() => {

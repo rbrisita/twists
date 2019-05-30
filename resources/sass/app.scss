@@ -10,6 +10,8 @@
 $base_color: black;
 $body-background: $topbar-background;
 $anchor-color: $base_color;
+$card-shadow: 0 10px 10px 0 rgba($dark-gray, 0.5);
+$card-border-radius: 10px;
 
 // Zurb Foundation
 @import "foundation";
@@ -92,7 +94,7 @@ header {
 
 #off-canvas {
   &.position-right {
-    overflow-y: unset;
+    overflow-y: unset; // Test if this is needed
   }
 
   > button {
@@ -101,6 +103,9 @@ header {
   }
 }
 
+/**
+* Menu hover for Topics section
+**/
 $menu-hover-lines-transition: all 0.35s ease;
 $menu-hover-lines-border-width: 3px;
 
@@ -154,6 +159,38 @@ $menu-hover-lines-border-width: 3px;
   .topic--selected a::after {
     width: 100%;
   }
+}
+
+/**
+* Icons
+**/
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+
+  &--large {
+    @extend .icon;
+    width: 4em;
+    height: 4em;
+  }
+}
+
+.cryptocurrency,
+.tech {
+  stroke-width: 0.3px;
+}
+
+#favorites .card {
+    cursor: pointer;
+}
+
+.deactivate {
+  color: lightgray;
+  box-shadow: unset;
 }
 
 /**

@@ -4,8 +4,8 @@ import {
     OnInit
 } from '@angular/core';
 
-import { Subscription } from 'rxjs';
-import 'foundation-sites';
+import { EMPTY, Subscription } from 'rxjs';
+import '../../../node_modules/foundation-sites/dist/js/foundation';
 
 import { List } from '../models/list';
 import { Topic } from '../models/topic';
@@ -24,7 +24,14 @@ export class ListsComponent implements OnDestroy, OnInit {
 
     private subscription_selected_topic: Subscription;
 
-    constructor(private twist_service: TwistService) { }
+    constructor(private twist_service: TwistService) {
+        this.lists = [];
+        this.selected_list = {
+            owner_screen_name: '',
+            name: ''
+        };
+        this.subscription_selected_topic = EMPTY.subscribe();
+    }
 
     ngOnInit(): void {
         this.subscription_selected_topic = this.twist_service.getSelectedTopic().subscribe((topic: Topic) => {

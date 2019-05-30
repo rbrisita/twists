@@ -5138,9 +5138,9 @@ table.hover:not(.unstriped) tr:nth-of-type(even):hover {
   flex-grow: 1;
   margin-bottom: 1rem;
   border: 1px solid #e6e6e6;
-  border-radius: 0;
+  border-radius: 10px;
   background: #fefefe;
-  box-shadow: none;
+  box-shadow: 0 10px 10px 0 rgba(138, 138, 138, 0.5);
   overflow: hidden;
   color: #0a0a0a;
 }
@@ -8656,6 +8656,10 @@ header > nav {
   z-index: 1;
 }
 
+/**
+* Menu hover for Topics section
+**/
+
 .menu-hover-lines {
   transition: all 0.35s ease;
 }
@@ -8706,6 +8710,39 @@ header > nav {
 .menu-hover-lines a:hover::after,
 .menu-hover-lines .topic--selected a::after {
   width: 100%;
+}
+
+/**
+* Icons
+**/
+
+.icon,
+.icon--large {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+.icon--large {
+  width: 4em;
+  height: 4em;
+}
+
+.cryptocurrency,
+.tech {
+  stroke-width: 0.3px;
+}
+
+#favorites .card {
+  cursor: pointer;
+}
+
+.deactivate {
+  color: lightgray;
+  box-shadow: unset;
 }
 
 /**

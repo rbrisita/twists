@@ -1,7 +1,7 @@
 
 import { List } from './list';
 
-export class Topic {
+export interface Topic {
     id: number;
     name: string;
     lists: Array<List>;
