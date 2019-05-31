@@ -10,6 +10,9 @@ import { ListsComponent } from './components/lists.component';
 import { TopicsComponent } from './components/topics.component';
 import { TwistsComponent } from './components/twists.component';
 
+// Import styles so they can be processed by Webpack
+import '../sass/app.scss';
+
 @NgModule({
     imports: [
         BrowserModule,
