@@ -2,38 +2,29 @@
 
 const webpackMerge = require('webpack-merge');
 
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
 const commonConfig = require('./webpack.common');
 const helpers = require('./helpers');
 
 module.exports = webpackMerge(commonConfig, {
     mode: 'development',
 
-    // Works for MiniCssExtractPlugin
-    devtool: 'cheap-module-source-map',
+    devtool: 'cheap-module-eval-source-map',
 
     output: {
         filename: 'js/[name].bundle.js',
         chunkFilename: 'js/[id].chunk.js'
     },
 
-    plugins: [
-        new MiniCssExtractPlugin({
-            filename: 'css/app.[hash].css'
-        })
-    ],
-
     module: {
         rules: [
             /**
-             * Chain the sass-loader with the css-loader (CSS to JS) and
-             * extract into file.
+             * Chain the sass-loader with the css-loader (CSS to JS) and the
+             * style-loader (JS to inline styles) to immediately apply all styles to the DOM.
              */
             {
                 test: /\.(scss|sass)$/,
                 use: [
-                    MiniCssExtractPlugin.loader,
+                    { loader: 'style-loader', options: { sourceMap: true } },
                     { loader: 'css-loader', options: { sourceMap: true } },
                     { loader: 'sass-loader', options: { sourceMap: true } }
                 ],
@@ -50,5 +41,15 @@ module.exports = webpackMerge(commonConfig, {
                 ]
             }
         ]
+    },
+
+    devServer: {
+        compress: true,
+        index: '',
+        historyApiFallback: true,
+        proxy: {
+            '*': 'http://localhost:8000'
+        },
+        stats: 'minimal'
     }
 });

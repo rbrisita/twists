@@ -3,8 +3,8 @@
 const webpackMerge = require('webpack-merge');
 
 const ngw = require('@ngtools/webpack');
-const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 const commonConfig = require('./webpack.common');
@@ -24,13 +24,13 @@ module.exports = webpackMerge(commonConfig, {
         },
         runtimeChunk: 'single',
         minimizer: [
-            new OptimizeCSSAssetsPlugin(),
+            new OptimizeCssAssetsPlugin(),
             new TerserPlugin()
         ]
     },
 
     plugins: [
-        new MiniCSSExtractPlugin({
+        new MiniCssExtractPlugin({
             filename: 'css/app.[hash].css'
         }),
         new ngw.AngularCompilerPlugin({
@@ -48,7 +48,7 @@ module.exports = webpackMerge(commonConfig, {
             {
                 test: /\.(scss|sass)$/,
                 use: [
-                    MiniCSSExtractPlugin.loader,
+                    MiniCssExtractPlugin.loader,
                     'css-loader',
                     'sass-loader'
                 ],

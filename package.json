@@ -1,12 +1,10 @@
 {
     "private": true,
     "scripts": {
-        "build:dev": "npm run webpack:dev",
+        "hot": "cross-env NODE_ENV=development webpack-dev-server --hot --progress --port 8080 --config=./webpack/webpack.hot.js",
         "webpack:dev": "cross-env NODE_ENV=development webpack --progress --mode development",
         "watch": "npm run webpack:dev -- --watch",
         "watch-poll": "npm run watch -- --watch-poll",
-        "hot:dev": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --progress --port 8080",
-        "build:prod": "npm run webpack:prod",
         "webpack:prod": "cross-env NODE_ENV=production webpack --mode production"
     },
     "devDependencies": {
@@ -30,21 +28,20 @@
         "html-loader": "^0.5.5",
         "html-webpack-plugin": "^3.2.0",
         "jquery": "^3.2",
-        "laravel-mix": "^4.0.15",
         "lodash": "^4.17.5",
         "mini-css-extract-plugin": "^0.7.0",
         "motion-ui": "^2.0.3",
         "node-sass": "^4.12.0",
         "optimize-css-assets-webpack-plugin": "^5.0.1",
-        "resolve-url-loader": "2.3.1",
         "rxjs": "^6.5.1",
-        "sass": "^1.20.1",
         "sass-loader": "^7.1.0",
         "style-loader": "^0.23.1",
         "to-string-loader": "^1.1.5",
         "ts-loader": "^4.0.0",
         "typescript": "^3.2.4",
-        "vue-template-compiler": "^2.6.10",
+        "webpack": "^4.32.2",
+        "webpack-cli": "^3.3.2",
+        "webpack-dev-server": "^3.5.0",
         "webpack-merge": "^4.2.1",
         "zone.js": "^0.8.29"
     }

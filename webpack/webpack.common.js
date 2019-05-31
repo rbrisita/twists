@@ -47,9 +47,13 @@ module.exports = {
 
     module: {
         rules: [
+            /**
+             * Find Angular Component HTML and convert them to strings.
+             */
             {
                 test: /\.html$/,
-                loader: 'html-loader'
+                loader: 'html-loader',
+                include: helpers.root('resources', 'ts', 'components')
             },
             /**
              * Find Angular Component styles and convert them to strings.
