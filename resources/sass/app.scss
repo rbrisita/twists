@@ -51,16 +51,24 @@ header {
   margin-top: 30px; // Give space for closing button.
 }
 
+#twists {
+  margin-top: 55px;
+}
+
 /**
 * Menu
 **/
 #menu {
-    box-shadow: -3px 6px 5px 0 rgba(0, 0, 0, 1);
-    height: 100%;
+  box-shadow: 0 6px 6px 0 rgba(0, 0, 0, 1);
+  height: auto;
+  position: fixed;
+  width: 100%;
+  top: 53px;
+  z-index: 5;
 }
 
 .top-bar {
-    box-shadow: 0 6px 6px 0 rgba(0, 0, 0, 1);
+  box-shadow: none;
 }
 
 .topic {
@@ -70,7 +78,7 @@ header {
 .list--selected {
   background-color: #d3d3d3;
   border-radius: 2px;
-  box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 1);
+  box-shadow: 0 10px 10px -7px rgba(0, 0, 0, 1);
 }
 
 .topics {
@@ -84,10 +92,23 @@ header {
 
 .topics__list {
   flex-wrap: nowrap;
-  overflow: auto;
 }
 
 @include breakpoint(medium) {
+  #twists {
+    margin-top: 0;
+  }
+
+  #menu {
+    box-shadow: -3px 6px 5px 0 rgba(0, 0, 0, 1);
+    height: 100%;
+    width: unset;
+  }
+
+  .top-bar {
+    box-shadow: 0 6px 6px 0 rgba(0, 0, 0, 1);
+  }
+
   .topics__list {
     flex-wrap: wrap;
   }
@@ -194,7 +215,7 @@ $menu-hover-lines-border-width: 3px;
 }
 
 #favorites .card {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .deactivate {
