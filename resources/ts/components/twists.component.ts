@@ -22,6 +22,7 @@ import { TwistService } from '../services/twist.service';
 
 /**
  * The Twists Component is a collection of loaded topics which contain lists.
+ * Responsible for fading in and out loaded timelines.
  */
 @Component({
     selector: 'app-twists',
@@ -36,13 +37,31 @@ import { TwistService } from '../services/twist.service';
     ]
 })
 export class TwistsComponent implements OnDestroy, OnInit {
+    /**
+     * Chosen topic to display.
+     */
     topic: Topic;
+
+    /**
+     * Exposed to HTML template to display lists of chosen topic.
+     */
     lists: List[];
+
+    /**
+     * Animation fade state of component.
+     */
     fade_state: string | null;
+
+    /**
+     * Face callback when animation is done.
+     */
     fade_cb: (event: AnimationEvent) => void;
 
+    /**
+     * A dictionary of loaded timeline elements to turn on and off.
+     */
     private timelines: { [key: string]: HTMLIFrameElement[] };
-    private subscription: Subscription;
+    private subscription_selected_topic: Subscription;
 
     constructor(
         private renderer: Renderer2,
@@ -56,28 +75,31 @@ export class TwistsComponent implements OnDestroy, OnInit {
         };
         this.lists = [];
         this.fade_state = null;
-        this.fade_cb = ()=>{};
+        this.fade_cb = () => { };
         this.timelines = {};
-        this.subscription = EMPTY.subscribe();
+        this.subscription_selected_topic = EMPTY.subscribe();
     }
 
+    /**
+     * Listen to loaded timelines and when a user selects a specific topic.
+     */
     ngOnInit(): void {
         this.listenToSaveLoadedTopic();
 
-        this.subscription = this.twist_service.getSelectedTopic().subscribe(topic => {
-            this.showLoader();
-
+        this.subscription_selected_topic = this.twist_service.getSelectedTopic().subscribe(topic => {
             const current_timelines: HTMLIFrameElement[] = this.getCurrentTimelines();
             const saved_timelines: HTMLIFrameElement[] = this.getSavedTopicTimelines(topic.name);
 
             this.topic = topic;
 
+            this.showLoader();
+
+            // Currently showing timelines, start fading out, and hide them when done
             if (current_timelines.length) {
-                // We are currently showing timelines, start fading out, and hide them when done
                 this.fade_cb = function () {
+                    // Currently faded out now, hide old timelines, show saved timelines, and fade back in.
                     this.hideTimelines(current_timelines);
 
-                    // We should be faded out now, show timelines and fade back in.
                     if (saved_timelines.length) {
                         this.showTimelines(saved_timelines);
 
@@ -85,7 +107,7 @@ export class TwistsComponent implements OnDestroy, OnInit {
                             this.hideLoader();
                         };
                         this.fade_state = 'in';
-                    } else {
+                    } else { // No saved timelines, so load new lists
                         this.loadLists(topic.lists);
                     }
                 };
@@ -113,22 +135,37 @@ export class TwistsComponent implements OnDestroy, OnInit {
             'loaded',
             (event) => {
                 const widgets = event.widgets;
-                widgets.forEach((widget: HTMLIFrameElement) => {
-                    this.timelines[this.topic.name].push(widget);
-                });
+                this.saveTimelines(widgets);
 
                 if (widgets.length) {
-                    this.fade_cb = function () {
-                        this.hideLoader();
-                    };
-                    Promise.resolve(null).then(() => {
-                        this.fade_state = 'in';
-                        // Tell Angular since this is outside it's scope.
-                        this.change_detector.detectChanges();
-                    });
+                    this.presentTimelines()
                 }
             }
         );
+    }
+
+    /**
+     * Save loaded timelines for reuse.
+     * @param widgets An array of widgets that have loaded.
+     */
+    private saveTimelines(widgets: any[]): void {
+        widgets.forEach((widget: HTMLIFrameElement) => {
+            this.timelines[this.topic.name].push(widget);
+        });
+    }
+
+    /**
+     * Present timelines to user.
+     */
+    private presentTimelines(): void {
+        this.fade_cb = function () {
+            this.hideLoader();
+        };
+        Promise.resolve(null).then(() => {
+            this.fade_state = 'in';
+            // Tell Angular since this is outside it's scope.
+            this.change_detector.detectChanges();
+        });
     }
 
     /**
@@ -147,8 +184,7 @@ export class TwistsComponent implements OnDestroy, OnInit {
 
     /**
      * Return currently displayed timelines.
-     * Meaning that some were loaded before.
-     * @returns An array of timelines that are currently displayed.
+     * @returns An array of timelines that are currently displayed and loaded before.
      */
     private getCurrentTimelines(): HTMLIFrameElement[] {
         if (this.topic) {
@@ -196,18 +232,22 @@ export class TwistsComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Assign given lists triggering an Angular for directive.
+     * Assign given lists triggering an Angular 'for' directive.
      * @param lists Lists to load using Twitter's widget library.
      */
     private loadLists(lists: List[]): void {
         this.lists = lists;
-        setImmediate(() => {
-            console.log('twttr.widgets.load();');
-            twttr.widgets.load();
-        });
+        if (this.lists.length) {
+            setImmediate(() => {
+                console.log('twttr.widgets.load();');
+                twttr.widgets.load();
+            });
+        } else {
+            this.presentTimelines();
+        }
     }
 
     ngOnDestroy(): void {
-        this.subscription.unsubscribe();
+        this.subscription_selected_topic.unsubscribe();
     }
 }

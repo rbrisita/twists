@@ -19,7 +19,14 @@ import { TwistService } from '../services/twist.service';
     templateUrl: './views/lists.component.html',
 })
 export class ListsComponent implements OnDestroy, OnInit {
+    /**
+     * Exposed to component HTML template to be parsed into a selectable menu.
+     */
     lists: List[];
+
+    /**
+     * Exposed to component HTML template to style selected list.
+     */
     selected_list: List;
 
     private subscription_selected_topic: Subscription;
@@ -40,6 +47,11 @@ export class ListsComponent implements OnDestroy, OnInit {
         });
     }
 
+    /**
+     * Scroll to given list.
+     * Exposed to HTML template.
+     * @param list List to scroll to.
+     */
     scrollToList(list: List): void {
         const widget_id = 'list:' + list.owner_screen_name.replace('-', '_') + ':' + list.name.replace('-', '_');
         const el: HTMLElement | null = document.querySelector('[data-widget-id="' + widget_id + '"]');

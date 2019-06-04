@@ -16,6 +16,7 @@
         "@angular/platform-browser": "^7.2.15",
         "@angular/platform-browser-dynamic": "^7.2.15",
         "@ngtools/webpack": "^7.3.9",
+        "@ngx-pwa/local-storage": "^7.4.2",
         "@types/jquery": "^3.3.29",
         "@types/node": "^12.0.0",
         "@types/twitter-for-web": "0.0.0",
@@ -44,5 +45,6 @@
         "webpack-dev-server": "^3.5.0",
         "webpack-merge": "^4.2.1",
         "zone.js": "^0.8.29"
-    }
+    },
+    "dependencies": {}
 }
