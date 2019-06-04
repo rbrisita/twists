@@ -157,7 +157,7 @@ $menu-hover-lines-border-width: 3px;
     background-color: transparent;
   }
 
-  a:before,
+  a::before,
   a::after {
     height: $menu-hover-lines-border-width;
     position: absolute;
@@ -192,6 +192,10 @@ $menu-hover-lines-border-width: 3px;
 }
 
 /**
+* Favorites
+**/
+
+/**
 * Icons
 **/
 .icon {
@@ -214,13 +218,39 @@ $menu-hover-lines-border-width: 3px;
   stroke-width: 0.3px;
 }
 
-#favorites .card {
-  cursor: pointer;
-}
+#favorites {
+  .card {
+    cursor: pointer;
+    position: relative;
 
-.deactivate {
-  color: lightgray;
-  box-shadow: unset;
+    &--selected {
+      color: lightgray;
+      box-shadow: unset;
+
+      &::after,
+      &::before {
+        left: 0;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        width: 100%;
+      }
+
+      &::after {
+        background-color: $reveal-overlay-background;
+        content: "";
+        z-index: 99;
+      }
+
+      &::before {
+        color: $primary-color;
+        content: "✔";
+        font-size: 6em;
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        z-index: 100;
+      }
+    }
+  }
 }
 
 /**
