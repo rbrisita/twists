@@ -15,22 +15,6 @@ Route::get('/', function () {
     return view('app');
 });
 
-Route::get('/welcome', function () {
-    return view('welcome');
-});
-
-Route::get('/topics', function () {
-    return view('topics');
-});
-
-Route::get('/lists', function () {
-    return view('lists');
-});
-
-Route::get('/twists', function () {
-    return view('twists');
-});
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
