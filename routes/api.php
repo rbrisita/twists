@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +16,15 @@ use Illuminate\Http\Request;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::get('topics', 'TwistController@topics');
+Route::get('topics/{id}', 'TwistController@topicById');
+Route::fallback(function () {
+    $http_code = HttpResponse::HTTP_NOT_FOUND;
+    return response()->json([
+        'code' => $http_code,
+        'error' => HttpResponse::$statusTexts[$http_code],
+        'status' => 'Resource not found'
+    ], $http_code);
 });

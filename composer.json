@@ -13,6 +13,7 @@
         "laravel-frontend-presets/zurb-foundation": "^2.1",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
+        "predis/predis": "^1.1",
         "thujohn/twitter": "^2.2"
     },
     "require-dev": {
