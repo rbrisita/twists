@@ -69,10 +69,6 @@ export class TopicsComponent implements OnDestroy, OnInit {
 
         this.selected_topic_id = id;
 
-        if (!topic.lists) {
-            return;
-        }
-
         // Make sure the view is scrolled to the top.
         if (window.scrollY) {
             const scroll_listener = () => {

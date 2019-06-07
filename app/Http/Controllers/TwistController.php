@@ -27,7 +27,7 @@ class TwistController extends Controller
     {
         return Cache::remember('topics', $this->secs_in_day, function () {
             return response()->json([
-                'data' => Redis::get('topics')
+                'data' => json_decode(Redis::get('topics'))
             ]);
         });
     }
@@ -46,7 +46,7 @@ class TwistController extends Controller
 
         return Cache::remember('topic_' . $id, $this->secs_in_day, function () use ($id) {
             $response = null;
-            $http_code = HttpResponse::HTTP_FOUND;
+            $http_code = HttpResponse::HTTP_OK;
 
             $data = Redis::get($id);
             if (!$data) {
@@ -58,7 +58,7 @@ class TwistController extends Controller
                 ];
             } else {
                 $response = [
-                    'data' => $data
+                    'data' => json_decode($data)
                 ];
             }
 
