@@ -77,36 +77,26 @@ export class TwistService {
     }
 
     /**
-     * Save chosen topic by given id.
-     * @param id Id of topic to add.
+     * Set favorite topics by given ids.
+     * @param ids Ids of selected topics.
      */
-    addFavoriteTopicById(id: number): void {
-        if (!this.topics.length) {
-            console.error('Topics are empty.');
-            return;
-        }
+    setFavoriteTopicsByIds(ids: number[]): void {
+        // Clear out all favorties and add new given ids.
+        this.local_storage.clear().subscribe(() => {
+            if (!ids.length) {
+                this.updateFavorites();
+                return;
+            }
 
-        this.local_storage.setItem(this.topics[id].name, this.topics[id]).subscribe(() => {
-            this.updateFavorites();
-        }, () => {
-            console.log('setItem Error');
-        });
-    }
-
-    /**
-     * Remove chosen topic by id.
-     * @param id Id of topic to remove.
-     */
-    removeFavoriteTopicById(id: number): void {
-        if (!this.topics.length) {
-            console.error('Topics are empty.');
-            return;
-        }
-
-        this.local_storage.removeItem(this.topics[id].name).subscribe(() => {
-            this.updateFavorites();
-        }, () => {
-            console.log('removeItem Error');
+            ids.forEach((id, index) => {
+                this.local_storage.setItem(this.topics[id].name, this.topics[id]).subscribe(() => {
+                    if (index === (ids.length - 1)) {
+                        this.updateFavorites();
+                    }
+                }, () => {
+                    console.error('setItem Error on id=' + id + ', index=' + index);
+                });
+            });
         });
     }
 
@@ -135,6 +125,10 @@ export class TwistService {
         });
     }
 
+    /**
+     * Handle HTTP errors.
+     * @param error Error from HTTP request.
+     */
     private handleError(error: HttpErrorResponse) {
         if (error.error instanceof ErrorEvent) {
             // A client-side or network error occurred. Handle it accordingly.
@@ -146,7 +140,6 @@ export class TwistService {
             console.log(error.status);
             console.log(error.statusText);
             console.log(error.message);
-
         }
 
         console.log(error);

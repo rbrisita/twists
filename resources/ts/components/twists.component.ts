@@ -118,6 +118,9 @@ export class TwistsComponent implements OnDestroy, OnInit {
             }
 
             this.fade_state = 'out';
+
+            // Tell Angular since this is outside it's scope.
+            this.change_detector.detectChanges();
         });
     }
 

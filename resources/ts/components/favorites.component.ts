@@ -51,9 +51,12 @@ export class FavoritesComponent implements OnDestroy, OnInit {
 
             this.selectTopics(this.favorites);
         });
+
+        $('#favorites').on('closed.zf.reveal', this.handleClose.bind(this));
     }
 
     ngOnDestroy(): void {
+        $('#favorites').off('closed.zf.reveal', this.handleClose);
         this.subscription_topics.unsubscribe();
         this.subscription_favorites.unsubscribe();
     }
@@ -71,15 +74,7 @@ export class FavoritesComponent implements OnDestroy, OnInit {
             return;
         }
 
-        const data_id: string | null = card.getAttribute('data-id');
-        if (data_id) {
-            const id: number = parseInt(data_id);
-            if (this.removeCard(card)) {
-                this.twist_service.removeFavoriteTopicById(id);
-            } else {
-                this.twist_service.addFavoriteTopicById(id);
-            }
-        }
+        this.toggleCard(card);
     }
 
     /**
@@ -105,18 +100,35 @@ export class FavoritesComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Add selected class to given element.
-     * @param card Element to add selected class to.
+     * Handle close event from Foundation's Reveal. Collect all ids from selected topics
+     * and update twist service.
      */
-    private selectCard(card: Element): boolean {
-        return card.classList.toggle('card--selected');
+    private handleClose(): void {
+        const elems = document.querySelectorAll('#favorites .card--selected');
+        const new_ids: Set<number> = new Set();
+        elems.forEach((elem) => {
+            const data_id: string | null = elem.getAttribute('data-id');
+            if (data_id) {
+                new_ids.add(parseInt(data_id));
+            }
+        });
+
+        this.twist_service.setFavoriteTopicsByIds(Array.from(new_ids));
     }
 
     /**
-     * Remove selected class to given element.
+     * Add selected class to given element.
+     * @param card Element to add selected class to.
+     */
+    private selectCard(card: Element): void {
+        card.classList.add('card--selected');
+    }
+
+    /**
+     * Toggle selected class to given element.
      * @param card Element to remove selected class to.
      */
-    private removeCard(card: Element): boolean {
-        return card.classList.contains('card--selected');
+    private toggleCard(card: Element): boolean {
+        return card.classList.toggle('card--selected');
     }
 }

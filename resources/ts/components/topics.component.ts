@@ -21,7 +21,7 @@ export class TopicsComponent implements OnDestroy, OnInit {
     /**
      * Exposed to component HTML template to be parsed into a selectable menu.
      */
-    topics: Topic[];
+    favorite_topics: Topic[];
 
     /**
      * Exposed to component HTML template to style selected topic.
@@ -31,18 +31,18 @@ export class TopicsComponent implements OnDestroy, OnInit {
     private subscription_topics: Subscription;
 
     constructor(private twist_service: TwistService) {
-        this.topics = [];
+        this.favorite_topics = [];
         this.selected_topic_id = -1;
         this.subscription_topics = EMPTY.subscribe();
     }
 
     ngOnInit(): void {
-        this.subscription_topics = this.twist_service.getFavoriteTopics().subscribe(topics => {
-            this.topics = topics;
+        this.subscription_topics = this.twist_service.getFavoriteTopics().subscribe(favorite_topics => {
+            this.favorite_topics = favorite_topics;
 
-            if (this.topics.length) {
+            if (this.favorite_topics.length) {
                 setTimeout(() => {
-                    this.loadTopic(this.topics[0]);
+                    this.loadTopic(this.favorite_topics[0]);
                 });
             } else {
                 setImmediate(() => {
