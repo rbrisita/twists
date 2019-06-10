@@ -48,6 +48,11 @@ export class TwistsComponent implements OnDestroy, OnInit {
     lists: List[];
 
     /**
+     * Exposed to HTML template to display the first lists.
+     */
+    first_lists: List[];
+
+    /**
      * Animation fade state of component.
      */
     fade_state: string | null;
@@ -55,7 +60,12 @@ export class TwistsComponent implements OnDestroy, OnInit {
     /**
      * Face callback when animation is done.
      */
-    fade_cb: (event: AnimationEvent) => void;
+    private fade_cb: (event: AnimationEvent) => void;
+
+    /**
+     * Lists to load after the first lists.
+     */
+    private subsequent_lists: List[];
 
     /**
      * A dictionary of loaded timeline elements to turn on and off.
@@ -74,8 +84,10 @@ export class TwistsComponent implements OnDestroy, OnInit {
             lists: []
         };
         this.lists = [];
+        this.first_lists = [];
         this.fade_state = null;
         this.fade_cb = () => { };
+        this.subsequent_lists = [];
         this.timelines = {};
         this.subscription_selected_topic = EMPTY.subscribe();
     }
@@ -118,9 +130,7 @@ export class TwistsComponent implements OnDestroy, OnInit {
             }
 
             this.fade_state = 'out';
-
-            // Tell Angular since this is outside it's scope.
-            this.change_detector.detectChanges();
+            this.forceUpdate();
         });
     }
 
@@ -131,20 +141,31 @@ export class TwistsComponent implements OnDestroy, OnInit {
     }
 
     /**
+     * Tell Angular to update since this is outside it's scope.
+     */
+    private forceUpdate() {
+        this.change_detector.detectChanges();
+    }
+
+    /**
      * Listen to Twitter loaded event and save loaded timelines (widgets).
      */
     private listenToSaveLoadedTopic(): void {
-        twttr.events.bind(
-            'loaded',
-            (event) => {
-                const widgets = event.widgets;
+        twttr.events.bind('loaded', (event) => {
+            const widgets = event.widgets;
+            if (widgets.length) {
                 this.saveTimelines(widgets);
-
-                if (widgets.length) {
-                    this.presentTimelines()
-                }
+                this.presentTimelines();
             }
-        );
+
+            if (this.subsequent_lists.length) {
+                this.lists = this.subsequent_lists;
+                this.subsequent_lists = [];
+                setImmediate(() => {
+                    twttr.widgets.load();
+                });
+            }
+        });
     }
 
     /**
@@ -152,9 +173,7 @@ export class TwistsComponent implements OnDestroy, OnInit {
      * @param widgets An array of widgets that have loaded.
      */
     private saveTimelines(widgets: any[]): void {
-        widgets.forEach((widget: HTMLIFrameElement) => {
-            this.timelines[this.topic.name].push(widget);
-        });
+        Array.prototype.push.apply(this.timelines[this.topic.name], widgets);
     }
 
     /**
@@ -166,8 +185,7 @@ export class TwistsComponent implements OnDestroy, OnInit {
         };
         Promise.resolve(null).then(() => {
             this.fade_state = 'in';
-            // Tell Angular since this is outside it's scope.
-            this.change_detector.detectChanges();
+            this.forceUpdate();
         });
     }
 
@@ -239,10 +257,11 @@ export class TwistsComponent implements OnDestroy, OnInit {
      * @param lists Lists to load using Twitter's widget library.
      */
     private loadLists(lists: List[]): void {
-        this.lists = lists;
-        if (this.lists.length) {
+        this.subsequent_lists = lists.slice(1);
+        if (lists.length) {
+            this.first_lists = [lists[0]];
             setImmediate(() => {
-                console.log('twttr.widgets.load();');
+                console.log('loadLists twttr.widgets.load();');
                 twttr.widgets.load();
             });
         } else {
