@@ -2,6 +2,6 @@
     <li class="h1 menu-text hide-for-small-only">Topics</li>
     <li class="h3 topic" *ngFor="let topic of favorite_topics" [class.topic--selected]="topic.id === selected_topic_id"
         (click)="loadTopic(topic)">
-        <a>{{topic.name}}</a>
+        <a>{{topic.html_display_name ? topic.html_display_name : topic.name}}</a>
     </li>
 </ul>

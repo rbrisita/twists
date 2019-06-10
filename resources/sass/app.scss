@@ -71,6 +71,12 @@ header {
   box-shadow: none;
 }
 
+.topic,
+.list {
+  hyphens: none;
+  white-space: nowrap;
+}
+
 .topic {
   font-variant: small-caps;
 }
@@ -113,11 +119,18 @@ header {
     flex-wrap: wrap;
   }
 
+  .topic,
   .list {
+    white-space: unset;
+  }
+
+  .list {
+    hyphens: auto;
     padding-left: 2em;
   }
 
   .topic {
+    hyphens: manual;
     padding-left: 1em;
   }
 }
