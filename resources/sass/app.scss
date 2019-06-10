@@ -59,9 +59,10 @@ header {
 * Menu
 **/
 #menu {
-  box-shadow: 0 6px 6px 0 rgba(0, 0, 0, 1);
+  box-shadow: 0 8px 7px 0 rgba(0, 0, 0, 1);
   height: auto;
   position: fixed;
+  overflow: auto; // Horizontal scroll on mobile
   width: 100%;
   top: 53px;
   z-index: 5;
@@ -69,6 +70,21 @@ header {
 
 .top-bar {
   box-shadow: none;
+}
+
+.topics__list,
+.lists__list {
+  background: $topbar-background;
+}
+
+.topics__list {
+  flex-wrap: nowrap;
+  width: fit-content;
+}
+
+.lists__list {
+  height: 100%;
+  overflow: auto; // Vertical scroll on mobile
 }
 
 .topic,
@@ -91,15 +107,6 @@ header {
   overflow: auto;
 }
 
-.topics__list,
-.lists__list {
-  background: $topbar-background;
-}
-
-.topics__list {
-  flex-wrap: nowrap;
-}
-
 @include breakpoint(medium) {
   #twists {
     margin-top: 0;
@@ -108,15 +115,25 @@ header {
   #menu {
     box-shadow: -3px 6px 5px 0 rgba(0, 0, 0, 1);
     height: 100%;
-    width: unset;
+    width: auto;
   }
 
   .top-bar {
     box-shadow: 0 6px 6px 0 rgba(0, 0, 0, 1);
   }
 
+  .topics__list,
+  .lists__list {
+    overflow: auto; // Vertical scroll on tablet+
+  }
+
   .topics__list {
     flex-wrap: wrap;
+    max-height: 50%;
+  }
+
+  .lists__list {
+    max-height: 30%;
   }
 
   .topic,
