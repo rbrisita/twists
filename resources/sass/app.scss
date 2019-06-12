@@ -12,6 +12,7 @@ $body-background: $topbar-background;
 $anchor-color: $base_color;
 $card-shadow: 0 10px 10px 0 rgba($dark-gray, 0.5);
 $card-border-radius: 10px;
+$global-width: 55rem;
 
 // Zurb Foundation
 @import "foundation";
@@ -38,12 +39,14 @@ $card-border-radius: 10px;
 }
 
 header {
-  display: block; // Give structure to element flow so side menu doesn't shift down when it populates.
-  min-height: 55px;
-  z-index: 1;
+  margin-top: 0 !important;
 
-  > nav {
-    position: fixed !important; // Important otherwise top-bar will disappear on overlay showing.
+  nav {
+    background: $topbar-background;
+    box-shadow: none;
+    .menu {
+      justify-content: space-around;
+    }
   }
 }
 
@@ -52,24 +55,28 @@ header {
 }
 
 #twists {
-  margin-top: 55px;
+  margin-top: 1em;
 }
 
 /**
 * Menu
 **/
-#menu {
-  box-shadow: 0 8px 7px 0 rgba(0, 0, 0, 1);
-  height: auto;
-  position: fixed;
-  overflow: auto; // Horizontal scroll on mobile
-  width: 100%;
-  top: 53px;
-  z-index: 5;
+#menu-container {
+  margin-top: 2.4em;
 }
 
-.top-bar {
-  box-shadow: none;
+#menu {
+  box-shadow: 0px 10px 10px -11px rgba(0, 0, 0, 1);
+  flex-wrap: nowrap;
+  flex-direction: row;
+  overflow: auto; // Horizontal scroll on mobile
+  width: 100%;
+  background: $topbar-background;
+  margin-top: inherit;
+  left: 0px;
+  top: 0px;
+  position: fixed;
+  z-index: 1;
 }
 
 .topics__list,
@@ -79,7 +86,6 @@ header {
 
 .topics__list {
   flex-wrap: nowrap;
-  width: fit-content;
 }
 
 .lists__list {
@@ -108,18 +114,32 @@ header {
 }
 
 @include breakpoint(medium) {
+  header {
+    nav {
+      box-shadow: 0px 10px 10px -11px black;
+      .menu {
+        justify-content: normal;
+      }
+    }
+  }
+
   #twists {
     margin-top: 0;
   }
 
   #menu {
-    box-shadow: -3px 6px 5px 0 rgba(0, 0, 0, 1);
     height: 100%;
-    width: auto;
+    flex-direction: column;
+    box-shadow: -3px 3px 5px -3px black;
+    left: initial;
+    width: initial;
   }
 
-  .top-bar {
-    box-shadow: 0 6px 6px 0 rgba(0, 0, 0, 1);
+  .top-menu-left {
+    box-shadow: 0px 10px 10px -11px black;
+    .menu {
+      justify-content: normal;
+    }
   }
 
   .topics__list,
@@ -128,7 +148,7 @@ header {
   }
 
   .topics__list {
-    flex-wrap: wrap;
+    flex-direction: column;
     max-height: 50%;
   }
 
@@ -177,6 +197,7 @@ $menu-hover-lines-border-width: 3px;
     color: $base_color;
     position: relative;
     margin-left: 1rem;
+    margin-right: 1rem;
   }
 
   li:first-child a {
