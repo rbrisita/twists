@@ -17,11 +17,12 @@ import {
 import { EMPTY, Subscription } from 'rxjs';
 
 import { List } from '../models/list';
+import { ListWidgetIdPipe } from '../pipes/list_widget-id.pipe';
 import { Topic } from '../models/topic'
 import { TwistService } from '../services/twist.service';
 
 /**
- * The Twists Component is a collection of loaded topics which contain lists.
+ * The Twists Component is a collection of lists from a loaded topic.
  * Responsible for fading in and out loaded timelines.
  */
 @Component({
@@ -34,26 +35,33 @@ import { TwistService } from '../services/twist.service';
             transition('in => out', [animate('500ms')]),
             transition('out => in', [animate('500ms')])
         ])
+    ],
+    providers: [
+        ListWidgetIdPipe
     ]
 })
 export class TwistsComponent implements OnDestroy, OnInit {
     /**
      * Chosen topic to display.
+     * Exposed to HTML template.
      */
     topic: Topic;
 
     /**
-     * Exposed to HTML template to display lists of chosen topic.
+     * Display lists of chosen topic.
+     * Exposed to HTML template.
      */
     lists: List[];
 
     /**
-     * Exposed to HTML template to display the first lists.
+     * Display the first lists.
+     * Exposed to HTML template.
      */
     first_lists: List[];
 
     /**
      * Animation fade state of component.
+     * Exposed to HTML template.
      */
     fade_state: string | null;
 
@@ -70,13 +78,19 @@ export class TwistsComponent implements OnDestroy, OnInit {
     /**
      * A dictionary of loaded timeline elements to turn on and off.
      */
-    private timelines: { [key: string]: HTMLIFrameElement[] };
+    private loaded_timelines: { [key: string]: HTMLIFrameElement[] };
+
+    /**
+     * A dictionary of requested timelines to track as they load.
+     */
+    private requested_timelines: { [key: string]: string[] };
     private subscription_selected_topic: Subscription;
 
     constructor(
         private renderer: Renderer2,
         private change_detector: ChangeDetectorRef,
-        private twist_service: TwistService
+        private twist_service: TwistService,
+        private list_widget_id_pipe: ListWidgetIdPipe
     ) {
         this.topic = {
             id: -1,
@@ -88,7 +102,8 @@ export class TwistsComponent implements OnDestroy, OnInit {
         this.fade_state = null;
         this.fade_cb = () => { };
         this.subsequent_lists = [];
-        this.timelines = {};
+        this.loaded_timelines = {};
+        this.requested_timelines = {};
         this.subscription_selected_topic = EMPTY.subscribe();
     }
 
@@ -99,12 +114,14 @@ export class TwistsComponent implements OnDestroy, OnInit {
         this.listenToSaveLoadedTopic();
 
         this.subscription_selected_topic = this.twist_service.getSelectedTopic().subscribe(topic => {
+            this.showLoader();
+
             const current_timelines: HTMLIFrameElement[] = this.getCurrentTimelines();
             const saved_timelines: HTMLIFrameElement[] = this.getSavedTopicTimelines(topic.name);
 
             this.topic = topic;
 
-            this.showLoader();
+            this.requested_timelines[topic.name] = this.getWidgetIdsFromTopic(topic);
 
             // Currently showing timelines, start fading out, and hide them when done
             if (current_timelines.length) {
@@ -141,6 +158,20 @@ export class TwistsComponent implements OnDestroy, OnInit {
     }
 
     /**
+     * Parse lists from given topic and create their Twitter widget ids.
+     * @param topic Topic to parse lists from.
+     * @returns Array of widget id strings.
+     */
+    private getWidgetIdsFromTopic(topic: Topic): string[] {
+        const widget_ids: string[] = new Array<string>();
+        topic.lists.forEach((list) => {
+            const widget_id: string = this.list_widget_id_pipe.transform(list);
+            widget_ids.push(widget_id);
+        });
+        return widget_ids;
+    }
+
+    /**
      * Tell Angular to update since this is outside it's scope.
      */
     private forceUpdate() {
@@ -161,9 +192,7 @@ export class TwistsComponent implements OnDestroy, OnInit {
             if (this.subsequent_lists.length) {
                 this.lists = this.subsequent_lists;
                 this.subsequent_lists = [];
-                setImmediate(() => {
-                    twttr.widgets.load();
-                });
+                this.twitterLoad();
             }
         });
     }
@@ -173,13 +202,56 @@ export class TwistsComponent implements OnDestroy, OnInit {
      * @param widgets An array of widgets that have loaded.
      */
     private saveTimelines(widgets: any[]): void {
-        Array.prototype.push.apply(this.timelines[this.topic.name], widgets);
+        /**
+         * The order of loaded widgets is not guaranteed. It is possible to switch
+         * to another topic while the previous topic's lists are still loading. Below
+         * prevents adding loaded widgets to the wrong topic.
+         */
+
+        const hide_widgets: HTMLIFrameElement[] = new Array<HTMLIFrameElement>();
+
+        // For each loaded widget find its widget id.
+        widgets.forEach((widget: HTMLIFrameElement) => {
+            const widget_id: string | null = widget.getAttribute('data-widget-id');
+            if (!widget_id) {
+                return;
+            }
+
+            // Find what topic contains this widget id and save it.
+            for (const topic_name in this.requested_timelines) {
+                const index: number = this.requested_timelines[topic_name].indexOf(widget_id);
+                if (index === -1) {
+                    continue;
+                }
+
+                // Found it and save it.
+                this.loaded_timelines[topic_name].push(widget);
+
+                // Not current topic? Hide it.
+                if (this.topic.name !== topic_name) {
+                    hide_widgets.push(widget);
+                }
+
+                // Delete loaded widget id and delete topic_name if no longer needed.
+                this.requested_timelines[topic_name].splice(index, 1);
+                if (!this.requested_timelines[topic_name].length) {
+                    delete this.requested_timelines[topic_name];
+                }
+                break;
+            }
+        });
+
+        this.hideTimelines(hide_widgets);
     }
 
     /**
      * Present timelines to user.
      */
     private presentTimelines(): void {
+        if (this.fade_state === 'in') {
+            return;
+        }
+
         this.fade_cb = function () {
             this.hideLoader();
         };
@@ -209,7 +281,7 @@ export class TwistsComponent implements OnDestroy, OnInit {
      */
     private getCurrentTimelines(): HTMLIFrameElement[] {
         if (this.topic) {
-            const timelines = this.timelines[this.topic.name]
+            const timelines = this.loaded_timelines[this.topic.name]
             if (timelines) {
                 return timelines;
             }
@@ -224,12 +296,12 @@ export class TwistsComponent implements OnDestroy, OnInit {
      * @returns An array of timelines that were saved.
      */
     private getSavedTopicTimelines(topic_name: string): HTMLIFrameElement[] {
-        const timelines = this.timelines[topic_name];
+        const timelines = this.loaded_timelines[topic_name];
         if (timelines) {
             return timelines;
         }
 
-        return this.timelines[topic_name] = [];
+        return this.loaded_timelines[topic_name] = [];
     }
 
     /**
@@ -261,12 +333,19 @@ export class TwistsComponent implements OnDestroy, OnInit {
         if (lists.length) {
             this.first_lists = [lists[0]];
             setImmediate(() => {
-                console.log('loadLists twttr.widgets.load();');
-                twttr.widgets.load();
+                this.twitterLoad();
             });
         } else {
             this.presentTimelines();
         }
+    }
+
+    private twitterLoad(): void {
+        setImmediate(() => {
+            // 'twttr.widgets.load' is a overload method.
+            // @ts-ignore
+            twttr.widgets.load(document.getElementById('twists'));
+        });
     }
 
     ngOnDestroy(): void {

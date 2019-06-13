@@ -8,6 +8,7 @@ import { EMPTY, Subscription } from 'rxjs';
 import '../../../node_modules/foundation-sites/dist/js/foundation';
 
 import { List } from '../models/list';
+import { ListWidgetIdPipe } from '../pipes/list_widget-id.pipe';
 import { Topic } from '../models/topic';
 import { TwistService } from '../services/twist.service';
 
@@ -17,6 +18,9 @@ import { TwistService } from '../services/twist.service';
 @Component({
     selector: 'app-lists',
     templateUrl: './views/lists.component.html',
+    providers: [
+        ListWidgetIdPipe
+    ]
 })
 export class ListsComponent implements OnDestroy, OnInit {
     /**
@@ -31,7 +35,7 @@ export class ListsComponent implements OnDestroy, OnInit {
 
     private subscription_selected_topic: Subscription;
 
-    constructor(private twist_service: TwistService) {
+    constructor(private twist_service: TwistService, private list_widget_id_pipe: ListWidgetIdPipe) {
         this.lists = [];
         this.selected_list = {
             owner_screen_name: '',
@@ -53,10 +57,7 @@ export class ListsComponent implements OnDestroy, OnInit {
      * @param list List to scroll to.
      */
     scrollToList(list: List): void {
-        let list_name: string = list.append ? list.name + list.append : list.name;
-        list_name = list_name.toLowerCase().replace(/\s*\W+/g, '_');
-
-        const widget_id = 'list:' + list.owner_screen_name + ':' + list_name;
+        const widget_id: string = this.list_widget_id_pipe.transform(list);
 
         const el: HTMLElement | null = document.querySelector('[data-widget-id="' + widget_id + '"]');
         if (el) {
