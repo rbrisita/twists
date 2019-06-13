@@ -53,7 +53,9 @@ export class ListsComponent implements OnDestroy, OnInit {
      * @param list List to scroll to.
      */
     scrollToList(list: List): void {
-        let list_name: string = list.name.toLowerCase().replace(/\s*\W+/, '_');
+        let list_name: string = list.append ? list.name + list.append : list.name;
+        list_name = list_name.toLowerCase().replace(/\s*\W+/g, '_');
+
         const widget_id = 'list:' + list.owner_screen_name + ':' + list_name;
 
         const el: HTMLElement | null = document.querySelector('[data-widget-id="' + widget_id + '"]');

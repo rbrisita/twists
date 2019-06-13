@@ -10,6 +10,11 @@ export class ListUrlPipe implements PipeTransform {
         return this.generateUrlFromList(value);
     }
 
+    /**
+     * Generate Twitter URL from given list.
+     * @param list List to generate URL from.
+     * @returns Generated URL in Twitter format.
+     */
     private generateUrlFromList(list: List): string {
         // Convert special characters to dashes.
         const special_chars = /[\s\W]+/g;
@@ -20,5 +25,4 @@ export class ListUrlPipe implements PipeTransform {
 
         return list_url + ((list.append) ? list.append : '');
     }
-
 }
