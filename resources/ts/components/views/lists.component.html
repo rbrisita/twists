@@ -2,6 +2,6 @@
     <li class="h4 menu-text">Lists</li>
     <li class="h5 list" *ngFor="let list of lists" [class.list--selected]="selected_list === list"
         (click)="scrollToList(list)">
-        <a>{{list.name}}</a>
+        <a>{{list.name}} <span class="h6">{{' by ' + list.owner_screen_name}}</span></a>
     </li>
 </ul>

@@ -12,7 +12,9 @@ $body-background: $topbar-background;
 $anchor-color: $base_color;
 $card-shadow: 0 10px 10px 0 rgba($dark-gray, 0.5);
 $card-border-radius: 10px;
-$global-width: 55rem;
+$global-width: rem-calc(850);
+$grid-container: $global-width;
+$grid-container-max: $global-width;
 
 // Zurb Foundation
 @import "foundation";
@@ -62,7 +64,7 @@ header {
 * Menu
 **/
 #menu-container {
-  margin-top: 2.4em;
+  margin-top: 2.3em;
 }
 
 #menu {
@@ -132,7 +134,7 @@ header {
     flex-direction: column;
     box-shadow: -3px 3px 5px -3px black;
     left: initial;
-    width: initial;
+    width: min-content;
   }
 
   .top-menu-left {
