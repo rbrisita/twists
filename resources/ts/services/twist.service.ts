@@ -56,7 +56,15 @@ export class TwistService {
     }
 
     /**
-     * Find topic by id and dispatch that it should be loaded.
+     * Dispatch 'undefined' as no topic is requested.
+     */
+    noTopicSelected(): void {
+        this.subject_selected_topic.next();
+    }
+
+    /**
+     * Request topic by id and dispatch that it should be loaded.
+     * @param id Id of topic to load.
      */
     loadTopicById(id: number): void {
         this.http.get<Topic>('api/topics/' + id)

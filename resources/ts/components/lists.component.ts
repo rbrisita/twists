@@ -24,28 +24,33 @@ import { TwistService } from '../services/twist.service';
 })
 export class ListsComponent implements OnDestroy, OnInit {
     /**
-     * Exposed to component HTML template to be parsed into a selectable menu.
+     * List array to be parsed into a selectable menu.
+     * Exposed to component HTML template.
      */
     lists: List[];
 
     /**
-     * Exposed to component HTML template to style selected list.
+     * List to style selected list.
+     * Exposed to component HTML template.
      */
-    selected_list: List;
+    selected_list: List | null;
 
     private subscription_selected_topic: Subscription;
 
     constructor(private twist_service: TwistService, private list_widget_id_pipe: ListWidgetIdPipe) {
         this.lists = [];
-        this.selected_list = {
-            owner_screen_name: '',
-            name: ''
-        };
+        this.selected_list = null;
         this.subscription_selected_topic = EMPTY.subscribe();
     }
 
     ngOnInit(): void {
         this.subscription_selected_topic = this.twist_service.getSelectedTopic().subscribe((topic: Topic) => {
+            if (!topic) {
+                this.lists = [];
+                this.selected_list = null;
+                return;
+            }
+
             this.lists = topic.lists;
             this.selected_list = topic.lists[0];
         });

@@ -117,11 +117,12 @@ export class TwistsComponent implements OnDestroy, OnInit {
             this.showLoader();
 
             const current_timelines: HTMLIFrameElement[] = this.getCurrentTimelines();
-            const saved_timelines: HTMLIFrameElement[] = this.getSavedTopicTimelines(topic.name);
+            const saved_timelines: HTMLIFrameElement[] = this.getSavedTimelinesFromTopic(topic);
 
             this.topic = topic;
-
-            this.requested_timelines[topic.name] = this.getWidgetIdsFromTopic(topic);
+            if (topic) {
+                this.requested_timelines[topic.name] = this.getWidgetIdsFromTopic(topic);
+            }
 
             // Currently showing timelines, start fading out, and hide them when done
             if (current_timelines.length) {
@@ -137,12 +138,12 @@ export class TwistsComponent implements OnDestroy, OnInit {
                         };
                         this.fade_state = 'in';
                     } else { // No saved timelines, so load new lists
-                        this.loadLists(topic.lists);
+                        this.loadListsFromTopic(topic);
                     }
                 };
             } else { // First time loading, so nothing to hide.
                 this.fade_cb = function () {
-                    this.loadLists(topic.lists);
+                    this.loadListsFromTopic(topic);
                 };
             }
 
@@ -291,11 +292,16 @@ export class TwistsComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Return saved timelines of given topic name.
-     * @param topic_name Name of topic to retrieve timelines for.
+     * Return saved timelines of given topic.
+     * @param topic Topic to retrieve timelines for.
      * @returns An array of timelines that were saved.
      */
-    private getSavedTopicTimelines(topic_name: string): HTMLIFrameElement[] {
+    private getSavedTimelinesFromTopic(topic: Topic): HTMLIFrameElement[] {
+        if (!topic) {
+            return [];
+        }
+
+        const topic_name: string = topic.name;
         const timelines = this.loaded_timelines[topic_name];
         if (timelines) {
             return timelines;
@@ -325,19 +331,19 @@ export class TwistsComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Assign given lists triggering an Angular 'for' directive.
-     * @param lists Lists to load using Twitter's widget library.
+     * With the given topic assign lists triggering an Angular 'for' directive.
+     * @param topic Topic containing lists to load using Twitter's widget library.
      */
-    private loadLists(lists: List[]): void {
-        this.subsequent_lists = lists.slice(1);
-        if (lists.length) {
-            this.first_lists = [lists[0]];
-            setImmediate(() => {
-                this.twitterLoad();
-            });
-        } else {
+    private loadListsFromTopic(topic: Topic): void {
+        if (!topic || !topic.lists.length) {
             this.presentTimelines();
+            return;
         }
+
+        const lists: List[] = topic.lists;
+        this.subsequent_lists = lists.slice(1);
+        this.first_lists = [lists[0]];
+        this.twitterLoad();
     }
 
     private twitterLoad(): void {
