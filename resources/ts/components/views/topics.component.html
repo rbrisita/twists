@@ -1,5 +1,5 @@
+<h1 class="menu__title hide-for-small-only">Topics</h1>
 <ul class="menu topics__list menu-hover-lines">
-    <li class="h1 menu-text hide-for-small-only">Topics</li>
     <li class="h3 topic" *ngFor="let topic of favorite_topics" [class.topic--selected]="topic.id === selected_topic_id"
         (click)="loadTopic(topic)">
         <a>{{topic.html_display_name ? topic.html_display_name : topic.name}}</a>

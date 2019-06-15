@@ -59,6 +59,23 @@ export class ListsComponent implements OnDestroy, OnInit {
 
         this.subscription_selected_list = this.twist_service.getSelectedList().subscribe((list: List) => {
             this.selected_list = list;
+            this.scrollToListMenuOption();
+        });
+    }
+
+    /**
+     * Scroll to chosen list menu option.
+     */
+    private scrollToListMenuOption(): void {
+        setImmediate(() => {
+            const el: Element | null = document.querySelector('#menu > app-lists > ul > li.list--selected');
+            if (!el) {
+                return;
+            }
+
+            el.scrollIntoView({
+                behavior: 'smooth'
+            });
         });
     }
 
