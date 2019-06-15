@@ -36,11 +36,13 @@ export class ListsComponent implements OnDestroy, OnInit {
     selected_list: List | null;
 
     private subscription_selected_topic: Subscription;
+    private subscription_selected_list: Subscription;
 
     constructor(private twist_service: TwistService, private list_widget_id_pipe: ListWidgetIdPipe) {
         this.lists = [];
         this.selected_list = null;
         this.subscription_selected_topic = EMPTY.subscribe();
+        this.subscription_selected_list = EMPTY.subscribe();
     }
 
     ngOnInit(): void {
@@ -52,7 +54,11 @@ export class ListsComponent implements OnDestroy, OnInit {
             }
 
             this.lists = topic.lists;
-            this.selected_list = topic.lists[0];
+            this.selected_list = this.lists[0];
+        });
+
+        this.subscription_selected_list = this.twist_service.getSelectedList().subscribe((list: List) => {
+            this.selected_list = list;
         });
     }
 
@@ -66,7 +72,6 @@ export class ListsComponent implements OnDestroy, OnInit {
 
         const el: HTMLElement | null = document.querySelector('[data-widget-id="' + widget_id + '"]');
         if (el) {
-            this.selected_list = list;
             this.scrollToElement(el);
         }
     }
@@ -106,5 +111,6 @@ export class ListsComponent implements OnDestroy, OnInit {
 
     ngOnDestroy(): void {
         this.subscription_selected_topic.unsubscribe();
+        this.subscription_selected_list.unsubscribe();
     }
 }

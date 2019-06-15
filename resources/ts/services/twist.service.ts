@@ -10,6 +10,7 @@ import {
 } from 'rxjs';
 import { catchError, retry, map } from 'rxjs/operators';
 
+import { List } from '../models/list';
 import { Topic } from '../models/topic';
 
 @Injectable({
@@ -21,6 +22,7 @@ export class TwistService {
     private subject_topics: Subject<Topic[]>;
     private subject_favorites: ReplaySubject<Topic[]>;
     private subject_selected_topic: Subject<Topic>;
+    private subject_selected_list: Subject<List>;
 
     constructor(private local_storage: LocalStorage, private http: HttpClient) {
         this.topics = [];
@@ -28,10 +30,29 @@ export class TwistService {
         this.subject_topics = new Subject<Topic[]>();
         this.subject_favorites = new ReplaySubject<Topic[]>(1);
         this.subject_selected_topic = new Subject<Topic>();
+        this.subject_selected_list = new Subject<List>();
 
         this.updateFavorites();
     }
 
+    /**
+     * Return selected list as an observable.
+     */
+    getSelectedList(): Observable<List> {
+        return this.subject_selected_list.asObservable();
+    }
+
+    /**
+     * Set selected list by given list.
+     * @param list List that was selected.
+     */
+    setSelectedList(list: List): void {
+        this.subject_selected_list.next(list);
+    }
+
+    /**
+     * Request all topics from HTTP service.
+     */
     getAllTopics(): Observable<Topic[]> {
         if (!this.topics.length) {
             this.http.get<Topic[]>('api/topics')

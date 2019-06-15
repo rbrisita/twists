@@ -15,6 +15,7 @@ import {
 } from '@angular/animations';
 
 import { EMPTY, Subscription } from 'rxjs';
+import { clearInterval, setInterval } from 'timers';
 
 import { List } from '../models/list';
 import { ListWidgetIdPipe } from '../pipes/list_widget-id.pipe';
@@ -85,6 +86,7 @@ export class TwistsComponent implements OnDestroy, OnInit {
      */
     private requested_timelines: { [key: string]: string[] };
     private subscription_selected_topic: Subscription;
+    private interval_id: NodeJS.Timeout | null;
 
     constructor(
         private renderer: Renderer2,
@@ -105,6 +107,7 @@ export class TwistsComponent implements OnDestroy, OnInit {
         this.loaded_timelines = {};
         this.requested_timelines = {};
         this.subscription_selected_topic = EMPTY.subscribe();
+        this.interval_id = null;
     }
 
     /**
@@ -112,6 +115,7 @@ export class TwistsComponent implements OnDestroy, OnInit {
      */
     ngOnInit(): void {
         this.listenToSaveLoadedTopic();
+        this.listenToScroll();
 
         this.subscription_selected_topic = this.twist_service.getSelectedTopic().subscribe(topic => {
             this.showLoader();
@@ -196,6 +200,48 @@ export class TwistsComponent implements OnDestroy, OnInit {
                 this.twitterLoad();
             }
         });
+    }
+
+    /**
+     * Listen to window scroll and update selected list when said list is in view.
+     */
+    private listenToScroll() {
+        const f: () => void = () => {
+            const current_timelines: HTMLIFrameElement[] = this.getCurrentTimelines();
+            const widget_ids: string[] = this.getWidgetIdsFromTopic(this.topic);
+            const viewport_bottom: number = window.pageYOffset + window.innerHeight;
+            const viewport_top: number = window.pageYOffset;
+            let found_index: number = -1;
+
+            // Find which timeline is in view
+            current_timelines.forEach((el: HTMLIFrameElement) => {
+                if (viewport_bottom > el.offsetTop && viewport_top < (el.offsetTop + el.scrollHeight)) {
+                    const widget_id: string | null = el.getAttribute('data-widget-id');
+                    if (!widget_id) {
+                        return;
+                    }
+
+                    // Only allow the greater index to be selected.
+                    const index = widget_ids.indexOf(widget_id);
+                    if (index > found_index) {
+                        found_index = index;
+                        this.twist_service.setSelectedList(this.topic.lists[index]);
+                    }
+                }
+            });
+        };
+
+        let handleScroll: boolean;
+        window.onscroll = () => {
+            handleScroll = true;
+        }
+
+        this.interval_id = setInterval(() => {
+            if (handleScroll) {
+                handleScroll = false;
+                f();
+            }
+        }, 100);
     }
 
     /**
@@ -356,5 +402,9 @@ export class TwistsComponent implements OnDestroy, OnInit {
 
     ngOnDestroy(): void {
         this.subscription_selected_topic.unsubscribe();
+        if (this.interval_id) {
+            clearInterval(this.interval_id);
+        }
+        window.onscroll = null;
     }
 }
