@@ -7,12 +7,15 @@
             <app-lists></app-lists>
         </section>
         <section class="grid-x">
-            <div class="cell medium-9" data-sticky-container>
-                <header data-sticky data-sticky-on="small">
+            <div class="cell medium-9 sticky-container">
+                <header class="sticky is-stuck">
                     <nav>
                         <app-header></app-header>
                     </nav>
                 </header>
+            </div>
+            <div class="cell medium-3">
+                <div class="dummy hide-for-small-only"></div>
             </div>
             <div class="cell medium-3 medium-order-1">
                 <div id="menu">

@@ -41,7 +41,7 @@ $grid-container-max: $global-width;
 }
 
 header {
-  margin-top: 0 !important;
+  left: 0px;
 
   nav {
     background: $topbar-background;
@@ -52,25 +52,36 @@ header {
   }
 }
 
+// Safari cover because of rubber band effect.
+.dummy {
+  width: 100%;
+  height: 100%;
+  background: $topbar-background;
+  position: fixed;
+}
+
 #colophon div.grid-x {
   margin-top: 30px; // Give space for closing button.
 }
 
 #twists {
-  margin-top: 3.3em; // To show list header on mobile
+  margin-top: 5rem; // To show list header on mobile
 }
 
 /**
 * Menu
 **/
 #menu {
+  background: $topbar-background;
   box-shadow: 0px 10px 10px -11px rgba(0, 0, 0, 1);
   flex-wrap: nowrap;
   flex-direction: row;
+  left: 0px;
+  margin-top: 2.3rem;
+  position: fixed;
   overflow: auto; // Horizontal scroll on mobile
   width: 100%;
-  background: $topbar-background;
-  position: fixed;
+  z-index: 1;
 }
 
 .menu__title {
@@ -116,6 +127,7 @@ header {
 
 @include breakpoint(medium) {
   header {
+    left: initial;
     nav {
       box-shadow: 0px 10px 10px -11px black;
       .menu {
@@ -125,13 +137,14 @@ header {
   }
 
   #twists {
-    margin-top: 0;
+    margin-top: 2.3rem;
   }
 
   #menu {
     height: 95%;
     flex-direction: column;
     box-shadow: -3px 3px 5px -3px black;
+    left: initial;
     width: min-content;
   }
 
@@ -174,23 +187,23 @@ header {
 
 /* Large only */
 @media (min-height: 1024px) {
-    #menu {
-        height: 96%;
-    }
+  #menu {
+    height: 96%;
+  }
 }
 
 /* XLarge only */
 @media (min-height: 1366px) {
-    #menu {
-        height: 97%;
-    }
+  #menu {
+    height: 97%;
+  }
 }
 
 /* XXLarge only */
 @media (min-height: 1367px) {
-    #menu {
-        height: 100%;
-    }
+  #menu {
+    height: 100%;
+  }
 }
 
 #off-canvas {
