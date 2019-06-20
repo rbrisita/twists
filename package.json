@@ -19,7 +19,7 @@
         "@ngx-pwa/local-storage": "^7.4.2",
         "@types/jquery": "^3.3.29",
         "@types/node": "^12.0.0",
-        "@types/twitter-for-web": "0.0.0",
+        "@types/twitter-for-web": "0.0.1",
         "angular2-template-loader": "^0.6.2",
         "clean-webpack-plugin": "^2.0.2",
         "core-js": "^2.6.5",

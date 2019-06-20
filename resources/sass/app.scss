@@ -19,12 +19,21 @@ $grid-container-max: $global-width;
 // Zurb Foundation
 @import "foundation";
 
+@include foundation-prototype-rounded;
+@include foundation-prototype-shadow;
+
 /**
-* Override Foundation
+* Override Foundation button style.
 **/
-.menu {
-  > .menu-text {
-    user-select: none;
+.button {
+  background-color: white;
+  border: none;
+  border-radius: 10px 10px 0px 0px;
+  margin-bottom: 0;
+
+  &:hover,
+  &:focus {
+    background-color: white;
   }
 }
 
@@ -65,7 +74,7 @@ header {
 }
 
 #twists {
-  margin-top: 5rem; // To show list header on mobile
+  margin-top: 5.7rem; // To show list header on mobile
 }
 
 /**
@@ -77,7 +86,7 @@ header {
   flex-wrap: nowrap;
   flex-direction: row;
   left: 0px;
-  margin-top: 2.3rem;
+  margin-top: 2.4rem;
   position: fixed;
   overflow: auto; // Horizontal scroll on mobile
   width: 100%;
@@ -89,6 +98,7 @@ header {
   font-weight: bold;
   line-height: 1;
   color: inherit;
+  user-select: none;
 }
 
 .topics__list,
@@ -137,7 +147,7 @@ header {
   }
 
   #twists {
-    margin-top: 2.3rem;
+    margin-top: 2.5rem;
   }
 
   #menu {
@@ -287,11 +297,21 @@ $menu-hover-lines-border-width: 3px;
   stroke: currentColor;
   fill: currentColor;
 
+  &--medium {
+    @extend .icon;
+    width: 2em;
+    height: 2em;
+  }
+
   &--large {
     @extend .icon;
     width: 4em;
     height: 4em;
   }
+}
+
+.refresh {
+  fill: black;
 }
 
 .cryptocurrency,
@@ -373,7 +393,9 @@ $menu-hover-lines-border-width: 3px;
 .spinner__bounce {
   position: absolute;
   text-align: center;
+  left: 50%;
   top: 50%;
+  transform: translate(-50%, -50%);
   width: 100%;
 
   > div {

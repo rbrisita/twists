@@ -43,12 +43,14 @@
         </div>
     </div>
 
-    <script async type="text/javascript" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script type="text/javascript" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     <% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
     <script type="text/javascript" src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>"></script>
     <% } %>
     <script>
-        $(document).foundation();
+        $(function() {
+            $(document).foundation();
+         });
     </script>
 </body>
 
