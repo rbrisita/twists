@@ -58,7 +58,7 @@ export class HeaderComponent implements OnDestroy, OnInit {
             return;
         }
 
-        let max_width: number = (width - pdngl - pdngr);
+        let max_width: number = Math.ceil(width - pdngl - pdngr) + 1;
         let unit: string = 'px';
         if (Foundation.MediaQuery.current === 'small') {
             max_width = 100;
