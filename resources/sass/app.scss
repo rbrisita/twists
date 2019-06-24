@@ -113,18 +113,18 @@ header {
 }
 
 .lists__list {
-  height: 100%;
+  height: 90%;
   overflow: auto; // Vertical scroll on mobile
 }
 
 .topic,
 .list {
   hyphens: none;
-  white-space: nowrap;
 }
 
 .topic {
   font-variant: small-caps;
+  white-space: nowrap;
 }
 
 .list--selected {
@@ -354,7 +354,7 @@ $menu-hover-lines-border-width: 3px;
         height: 100px;
         left: 50%;
         top: 50%;
-        transform: translate(-50%,-50%);
+        transform: translate(-50%, -50%);
         width: 100px;
       }
     }
