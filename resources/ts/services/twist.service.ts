@@ -17,6 +17,7 @@ import { Topic } from '../models/topic';
     providedIn: 'root',
 })
 export class TwistService {
+    readonly seen_intro_key: string = 'seen_intro';
     private topics: Topic[];
     private favorites: Topic[];
     private subject_topics: Subject<Topic[]>;
@@ -110,21 +111,29 @@ export class TwistService {
      * @param ids Ids of selected topics.
      */
     setFavoriteTopicsByIds(ids: number[]): void {
-        // Clear out all favorties and add new given ids.
-        this.local_storage.clear().subscribe(() => {
-            if (!ids.length) {
-                this.updateFavorites();
-                return;
-            }
-
-            ids.forEach((id, index) => {
-                this.local_storage.setItem(this.topics[id].name, this.topics[id]).subscribe(() => {
-                    if (index === (ids.length - 1)) {
+        // Has the intro been seen?
+        this.local_storage.getItem(this.seen_intro_key).subscribe((seen) => {
+            // Clear out all favorites and add new given ids.
+            this.local_storage.clear().subscribe({
+                next: () => {
+                    if (!ids.length) {
                         this.updateFavorites();
+                        return;
                     }
-                }, () => {
-                    console.error('setItem Error on id=' + id + ', index=' + index);
-                });
+
+                    ids.forEach((id, index) => {
+                        this.local_storage.setItem(this.topics[id].name, this.topics[id]).subscribe(() => {
+                            if (index === (ids.length - 1)) {
+                                this.updateFavorites();
+                            }
+                        }, () => {
+                            console.error('setItem Error on id=' + id + ', index=' + index);
+                        });
+                    });
+                },
+                complete: () => {
+                    this.seenIntro(seen as boolean);
+                }
             });
         });
     }
@@ -134,12 +143,19 @@ export class TwistService {
      */
     private updateFavorites(): void {
         this.local_storage.keys().subscribe((keys: string[]) => {
+            // Remove seen intro data if found.
+            const index: number = keys.indexOf(this.seen_intro_key);
+            if (index > -1) {
+                keys.splice(index, 1);
+            }
+
             const total: number = keys.length;
 
             this.favorites = [];
 
             if (!total) {
                 this.subject_favorites.next(this.favorites);
+                return;
             }
 
             keys.forEach((value: string, index: number) => {
@@ -155,6 +171,22 @@ export class TwistService {
     }
 
     /**
+     * Set intro modal key to given value.
+     * @param seen Whether the intro modal has been seen and closed by the user.
+     */
+    seenIntro(seen: boolean): void {
+        console.log('Setting seen intro.');
+        this.local_storage.setItem(this.seen_intro_key, seen).subscribe(() => { });
+    }
+
+    /**
+     * Return observable of seen intro key value.
+     */
+    hasSeenIntro(): Observable<unknown> {
+        return this.local_storage.getItem(this.seen_intro_key);
+    }
+
+    /**
      * Handle HTTP errors.
      * @param error Error from HTTP request.
      */
@@ -164,15 +196,15 @@ export class TwistService {
             console.error('An error occurred:', error.error.message);
         } else {
             // The backend returned an unsuccessful response code.
-            console.log(error.type);
-            console.log(error.name);
-            console.log(error.status);
-            console.log(error.statusText);
-            console.log(error.message);
+            console.log('error.type', error.type);
+            console.log('error.name', error.name);
+            console.log('error.status', error.status);
+            console.log('error.statusText', error.statusText);
+            console.log('error.message', error.message);
         }
 
-        console.log(error);
-        console.log(error.error);
+        console.log('error', error);
+        console.log('error.error', error.error);
 
         // Return an observable with a user-facing error message
         return throwError('Something bad happened; please try again later.');

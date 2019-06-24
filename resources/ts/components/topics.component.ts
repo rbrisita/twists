@@ -52,11 +52,15 @@ export class TopicsComponent implements OnDestroy, OnInit {
             } else {
                 this.selected_topic_id = null;
                 this.twist_service.noTopicSelected();
-                setImmediate(() => {
-                    // Prevent double opening
-                    if ($('#favorites').css('display') === 'none') {
-                        $('#favorites').foundation('open');
-                    }
+                this.twist_service.hasSeenIntro().subscribe((seen) => {
+                    let overlay_id: string = seen ? '#favorites' : '#intro';
+
+                    setImmediate(() => {
+                        // Prevent double opening
+                        if ($(overlay_id).css('display') === 'none') {
+                            $(overlay_id).foundation('open');
+                        }
+                    });
                 });
             }
         });
@@ -68,6 +72,7 @@ export class TopicsComponent implements OnDestroy, OnInit {
      * @param topic Topic to load from the service.
      */
     loadTopic(topic: Topic): void {
+        console.log('loadTopic', topic);
         const id = topic.id;
         if (this.selected_topic_id === id && Foundation.MediaQuery.current === 'small') {
             $('#off-canvas').foundation('toggle');

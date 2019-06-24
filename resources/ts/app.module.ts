@@ -7,6 +7,7 @@ import { AppComponent } from './components/app.component';
 import { ColophonComponent } from './components/colophon.component';
 import { FavoritesComponent } from './components/favorites.component';
 import { HeaderComponent } from './components/header.component';
+import { IntroComponent } from './components/intro.component';
 import { ListsComponent } from './components/lists.component';
 import { ListUrlPipe } from './pipes/list_url.pipe';
 import { TopicsComponent } from './components/topics.component';
@@ -26,6 +27,7 @@ import '../sass/app.scss';
         ColophonComponent,
         FavoritesComponent,
         HeaderComponent,
+        IntroComponent,
         ListsComponent,
         ListUrlPipe,
         TopicsComponent,
