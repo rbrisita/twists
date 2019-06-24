@@ -175,7 +175,6 @@ export class TwistService {
      * @param seen Whether the intro modal has been seen and closed by the user.
      */
     seenIntro(seen: boolean): void {
-        console.log('Setting seen intro.');
         this.local_storage.setItem(this.seen_intro_key, seen).subscribe(() => { });
     }
 

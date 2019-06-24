@@ -72,7 +72,6 @@ export class TopicsComponent implements OnDestroy, OnInit {
      * @param topic Topic to load from the service.
      */
     loadTopic(topic: Topic): void {
-        console.log('loadTopic', topic);
         const id = topic.id;
         if (this.selected_topic_id === id && Foundation.MediaQuery.current === 'small') {
             $('#off-canvas').foundation('toggle');
