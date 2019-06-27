@@ -1,10 +1,10 @@
 <div [@fade]="fade_state">
     <main class="grid-container">
-        <section class="off-canvas position-right" id="off-canvas" data-off-canvas>
+        <section id="off-canvas" class="off-canvas position-right" data-off-canvas>
             <button class="close-button" aria-label="Close menu" type="button" data-close>
                 <span aria-hidden="true">&times;</span>
             </button>
-            <app-lists></app-lists>
+            <app-lists class="hide-for-medium"></app-lists>
         </section>
         <section class="grid-x">
             <div class="cell medium-9 sticky-container">

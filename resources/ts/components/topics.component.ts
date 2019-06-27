@@ -8,6 +8,7 @@ import {
 import { EMPTY, Subscription } from 'rxjs';
 import '../../../node_modules/foundation-sites/dist/js/foundation';
 
+import { AnalyticsService } from '../services/analytics.service';
 import { Topic } from '../models/topic';
 import { TwistService } from '../services/twist.service';
 
@@ -31,7 +32,11 @@ export class TopicsComponent implements OnDestroy, OnInit {
 
     private subscription_topics: Subscription;
 
-    constructor(private change_detector: ChangeDetectorRef, private twist_service: TwistService) {
+    constructor(
+        private analytics_service: AnalyticsService,
+        private change_detector: ChangeDetectorRef,
+        private twist_service: TwistService
+    ) {
         this.favorite_topics = [];
         this.selected_topic_id = null;
         this.subscription_topics = EMPTY.subscribe();
@@ -97,6 +102,8 @@ export class TopicsComponent implements OnDestroy, OnInit {
         } else {
             this.twist_service.loadTopicById(id);
         }
+
+        this.analytics_service.selectTopic(topic);
     }
 
     ngOnDestroy(): void {

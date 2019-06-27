@@ -1,5 +1,6 @@
 import {
     Component,
+    ElementRef,
     OnDestroy,
     OnInit
 } from '@angular/core';
@@ -7,6 +8,7 @@ import {
 import { EMPTY, Subscription } from 'rxjs';
 import '../../../node_modules/foundation-sites/dist/js/foundation';
 
+import { AnalyticsService } from '../services/analytics.service';
 import { List } from '../models/list';
 import { ListWidgetIdPipe } from '../pipes/list_widget-id.pipe';
 import { Topic } from '../models/topic';
@@ -35,10 +37,21 @@ export class ListsComponent implements OnDestroy, OnInit {
      */
     selected_list: List | null;
 
+    private topic: Topic;
     private subscription_selected_topic: Subscription;
     private subscription_selected_list: Subscription;
 
-    constructor(private twist_service: TwistService, private list_widget_id_pipe: ListWidgetIdPipe) {
+    constructor(
+        private analytics_service: AnalyticsService,
+        private elem_ref: ElementRef,
+        private list_widget_id_pipe: ListWidgetIdPipe,
+        private twist_service: TwistService
+    ) {
+        this.topic = {
+            id: -1,
+            name: '',
+            lists: []
+        };
         this.lists = [];
         this.selected_list = null;
         this.subscription_selected_topic = EMPTY.subscribe();
@@ -53,13 +66,20 @@ export class ListsComponent implements OnDestroy, OnInit {
                 return;
             }
 
+            this.topic = topic;
             this.lists = topic.lists;
             this.selected_list = this.lists[0];
+            this.scrollToListMenuOption();
         });
 
         this.subscription_selected_list = this.twist_service.getSelectedList().subscribe((list: List) => {
             this.selected_list = list;
             this.scrollToListMenuOption();
+
+            // Very specific to HTML structure since there are two lists: mobile and desktop
+            if (getComputedStyle(this.elem_ref.nativeElement).display !== 'none') {
+                this.analytics_service.selectTopicList(this.topic, this.selected_list);
+            }
         });
     }
 

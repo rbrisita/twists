@@ -6,6 +6,7 @@ import {
 
 import { EMPTY, Subscription } from 'rxjs';
 
+import { AnalyticsService } from '../services/analytics.service';
 import { Topic } from '../models/topic';
 import { TwistService } from '../services/twist.service';
 
@@ -30,7 +31,10 @@ export class FavoritesComponent implements OnDestroy, OnInit {
     private subscription_topics: Subscription;
     private subscription_favorites: Subscription;
 
-    constructor(private twist_service: TwistService) {
+    constructor(
+        private analytics_service: AnalyticsService,
+        private twist_service: TwistService
+    ) {
         this.topics = [];
         this.favorites = [];
         this.subscription_topics = EMPTY.subscribe();
@@ -52,11 +56,13 @@ export class FavoritesComponent implements OnDestroy, OnInit {
             this.selectTopics(this.favorites);
         });
 
+        $('#favorites').on('open.zf.reveal', this.handleOpen.bind(this));
         $('#favorites').on('closed.zf.reveal', this.handleClose.bind(this));
     }
 
     ngOnDestroy(): void {
-        $('#favorites').off('closed.zf.reveal', this.handleClose);
+        $('#favorites').off('open.zf.reveal', this.handleOpen.bind(this));
+        $('#favorites').off('closed.zf.reveal', this.handleClose.bind(this));
         this.subscription_topics.unsubscribe();
         this.subscription_favorites.unsubscribe();
     }
@@ -99,6 +105,10 @@ export class FavoritesComponent implements OnDestroy, OnInit {
         });
     }
 
+    private handleOpen(): void {
+        this.analytics_service.viewFavorites();
+    }
+
     /**
      * Handle close event from Foundation's Reveal. Collect all ids from selected topics
      * and update twist service.
@@ -129,6 +139,19 @@ export class FavoritesComponent implements OnDestroy, OnInit {
      * @param card Element to remove selected class to.
      */
     private toggleCard(card: Element): boolean {
-        return card.classList.toggle('card--selected');
+        const added: boolean = card.classList.toggle('card--selected');
+
+        const el: HTMLElement | null = card.querySelector('p');
+        if (!el) {
+            return added;
+        }
+
+        if (added) {
+            this.analytics_service.addFavoriteTopic(el.innerText);
+        } else {
+            this.analytics_service.removeFavoriteTopic(el.innerText);
+        }
+
+        return added;
     }
 }

@@ -18,6 +18,7 @@ import {
 import { EMPTY, Subscription } from 'rxjs';
 import { clearInterval, setInterval } from 'timers';
 
+import { AnalyticsService } from '../services/analytics.service';
 import { List } from '../models/list';
 import { ListUrlPipe } from '../pipes/list_url.pipe';
 import { ListWidgetIdPipe } from '../pipes/list_widget-id.pipe';
@@ -110,6 +111,11 @@ export class TwistsComponent implements OnDestroy, OnInit {
     private interval_id: NodeJS.Timeout | null;
 
     /**
+     * The current list that is in the viewport.
+     */
+    private list_in_view: List;
+
+    /**
      * Template HTML string to create a refresh container and button.
      * Contains SVG path due to Chrome v73.0.3683.103 bug.
      */
@@ -123,17 +129,22 @@ export class TwistsComponent implements OnDestroy, OnInit {
     </div>`;
 
     constructor(
-        private elem_ref: ElementRef,
-        private renderer: Renderer2,
+        private analytics_service: AnalyticsService,
         private change_detector: ChangeDetectorRef,
-        private twist_service: TwistService,
+        private elem_ref: ElementRef,
         private list_url_pipe: ListUrlPipe,
-        private list_widget_id_pipe: ListWidgetIdPipe
+        private list_widget_id_pipe: ListWidgetIdPipe,
+        private renderer: Renderer2,
+        private twist_service: TwistService
     ) {
         this.topic = {
             id: -1,
             name: '',
             lists: []
+        };
+        this.list_in_view = {
+            owner_screen_name: '',
+            name: ''
         };
         this.lists = [];
         this.first_lists = [];
@@ -165,7 +176,7 @@ export class TwistsComponent implements OnDestroy, OnInit {
                 this.requested_timelines[topic.name] = this.getWidgetIdsFromTopic(topic);
             }
 
-            // Currently showing timelines, start fading out, and hide them when done
+            // Currently showing timelines, start fading out, and hide them when done.
             if (current_timelines.length) {
                 this.fade_cb = function () {
                     // Currently faded out now, hide old timelines, show saved timelines, and fade back in.
@@ -178,7 +189,7 @@ export class TwistsComponent implements OnDestroy, OnInit {
                             this.hideLoader();
                         };
                         this.fade_state = 'in';
-                    } else { // No saved timelines, so load new lists
+                    } else { // No saved timelines, so load new lists.
                         this.loadListsFromTopic(topic);
                     }
                 };
@@ -191,6 +202,8 @@ export class TwistsComponent implements OnDestroy, OnInit {
             this.fade_state = 'out';
             this.forceUpdate();
         });
+
+        this.analytics_service.viewMain();
     }
 
     onAnimationEvent(event: AnimationEvent) {
@@ -267,24 +280,30 @@ export class TwistsComponent implements OnDestroy, OnInit {
         const viewport_bottom: number = window.pageYOffset + window.innerHeight;
         const viewport_top: number = window.pageYOffset;
         let found_index: number = -1;
+        let found_list: List;
 
         // Find which timeline is in view
         if (current_timelines.length === 1) {
-            this.twist_service.setSelectedList(this.topic.lists[0]);
-            return;
+            found_list = this.topic.lists[0];
+        } else {
+            current_timelines.forEach((el: HTMLElement) => {
+                if (viewport_bottom > el.offsetTop && viewport_top < (el.offsetTop + el.scrollHeight)) {
+                    const widget_id: string = this.getWidgetIdFromElement(el);
+                    // Only allow the greater index to be selected.
+                    const index = widget_ids.indexOf(widget_id);
+                    if (index > found_index) {
+                        found_index = index;
+                    }
+                }
+            });
+            found_list = this.topic.lists[found_index];
         }
 
-        current_timelines.forEach((el: HTMLElement) => {
-            if (viewport_bottom > el.offsetTop && viewport_top < (el.offsetTop + el.scrollHeight)) {
-                const widget_id: string = this.getWidgetIdFromElement(el);
-                // Only allow the greater index to be selected.
-                const index = widget_ids.indexOf(widget_id);
-                if (index > found_index) {
-                    found_index = index;
-                    this.twist_service.setSelectedList(this.topic.lists[index]);
-                }
-            }
-        });
+        // Only update if new.
+        if (found_list !== this.list_in_view) {
+            this.list_in_view = found_list;
+            this.twist_service.setSelectedList(this.list_in_view);
+        }
     };
 
     /**
@@ -425,6 +444,8 @@ export class TwistsComponent implements OnDestroy, OnInit {
         this.timelineToRefresh(timeline_to_refesh);
         this.insertHTMLElementBefore(html.body.firstChild, timeline_to_refesh);
         this.twitterLoad();
+
+        this.analytics_service.refreshTopicList(this.topic, list);
     }
 
     /**
@@ -639,7 +660,9 @@ export class TwistsComponent implements OnDestroy, OnInit {
 
         const lists: List[] = topic.lists;
         this.subsequent_lists = lists.slice(1);
-        this.first_lists = [lists[0]];
+        this.list_in_view = lists[0];
+        this.first_lists = [this.list_in_view];
+        this.twist_service.setSelectedList(this.list_in_view);
         this.twitterLoad();
     }
 
