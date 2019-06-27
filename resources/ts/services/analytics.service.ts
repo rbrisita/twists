@@ -90,6 +90,19 @@ export class AnalyticsService {
         });
     }
 
+    viewError(): void {
+        gtag(event, 'screen_view', {
+            screen_name: 'Error'
+        });
+    }
+
+    exception(err: string, fatal: boolean = false): void {
+        gtag('event', 'exception', {
+            'description': err,
+            'fatal': fatal
+        });
+    }
+
     addFavoriteTopic(name: string): void {
         gtag('event', 'add', {
             event_category: 'Favorites',

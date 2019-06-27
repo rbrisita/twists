@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './components/app.component';
 import { ColophonComponent } from './components/colophon.component';
+import { ErrorComponent } from './components/error.component';
 import { FavoritesComponent } from './components/favorites.component';
 import { HeaderComponent } from './components/header.component';
 import { IntroComponent } from './components/intro.component';
@@ -25,6 +26,7 @@ import '../sass/app.scss';
     declarations: [
         AppComponent,
         ColophonComponent,
+        ErrorComponent,
         FavoritesComponent,
         HeaderComponent,
         IntroComponent,

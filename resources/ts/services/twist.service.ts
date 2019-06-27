@@ -10,6 +10,7 @@ import {
 } from 'rxjs';
 import { catchError, retry, map } from 'rxjs/operators';
 
+import { AnalyticsService } from '../services/analytics.service'
 import { List } from '../models/list';
 import { Topic } from '../models/topic';
 
@@ -25,7 +26,11 @@ export class TwistService {
     private subject_selected_topic: Subject<Topic>;
     private subject_selected_list: Subject<List>;
 
-    constructor(private local_storage: LocalStorage, private http: HttpClient) {
+    constructor(
+        private analytics_service: AnalyticsService,
+        private http: HttpClient,
+        private local_storage: LocalStorage
+    ) {
         this.topics = [];
         this.favorites = [];
         this.subject_topics = new Subject<Topic[]>();
@@ -187,23 +192,27 @@ export class TwistService {
 
     /**
      * Handle HTTP errors.
-     * @param error Error from HTTP request.
+     * @param response Error from HTTP request.
      */
-    private handleError(error: HttpErrorResponse) {
-        if (error.error instanceof ErrorEvent) {
+    private handleError(response: HttpErrorResponse) {
+        let msg: string = response.name + ':' +
+            response.status + ' (' + response.statusText + '): ' +
+            response.message;
+
+        if (response.error instanceof ErrorEvent) {
             // A client-side or network error occurred. Handle it accordingly.
-            console.error('An error occurred:', error.error.message);
-        } else {
+            msg += ':' + response.error.message;
+        } else if (response.error) {
             // The backend returned an unsuccessful response code.
-            console.log('error.type', error.type);
-            console.log('error.name', error.name);
-            console.log('error.status', error.status);
-            console.log('error.statusText', error.statusText);
-            console.log('error.message', error.message);
+            msg += ':' + response.error.error + '(' + response.error.status + ')';
         }
 
-        console.log('error', error);
-        console.log('error.error', error.error);
+        // Prevent double opening
+        if ($('#error').css('display') === 'none') {
+            $('#error').foundation('open');
+        }
+
+        this.analytics_service.exception(msg);
 
         // Return an observable with a user-facing error message
         return throwError('Something bad happened; please try again later.');
