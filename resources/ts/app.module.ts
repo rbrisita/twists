@@ -11,6 +11,7 @@ import { HeaderComponent } from './components/header.component';
 import { IntroComponent } from './components/intro.component';
 import { ListsComponent } from './components/lists.component';
 import { ListUrlPipe } from './pipes/list_url.pipe';
+import { ListWidgetIdPipe } from './pipes/list_widget-id.pipe';
 import { TopicsComponent } from './components/topics.component';
 import { TwistsComponent } from './components/twists.component';
 
@@ -32,6 +33,7 @@ import '../sass/app.scss';
         IntroComponent,
         ListsComponent,
         ListUrlPipe,
+        ListWidgetIdPipe,
         TopicsComponent,
         TwistsComponent
     ],

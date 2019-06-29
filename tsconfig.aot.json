@@ -23,6 +23,7 @@
         "node_modules",
         "vendor",
         "resources/ts/directives",
-        "resources/ts/main.ts"
+        "resources/ts/main.ts",
+        "resources/ts/pipes/replace.pipe.ts"
     ]
 }
