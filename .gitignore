@@ -4,8 +4,12 @@
 /storage/*.key
 /vendor
 .env
+.env.local
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+scrap-board
+.DS_Store
+.vscode

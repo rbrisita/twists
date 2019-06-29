@@ -65,4 +65,14 @@ class TwistController extends Controller
             return response()->json($response, $http_code);
         });
     }
+
+    public function fallback()
+    {
+        $http_code = HttpResponse::HTTP_NOT_FOUND;
+        return response()->json([
+            'code' => $http_code,
+            'error' => HttpResponse::$statusTexts[$http_code],
+            'status' => 'Resource not found'
+        ], $http_code);
+    }
 }
