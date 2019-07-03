@@ -5,13 +5,12 @@
         "webpack:dev": "cross-env NODE_ENV=development webpack --progress --mode development",
         "watch": "npm run webpack:dev -- --watch",
         "watch-poll": "npm run watch -- --watch-poll",
-        "webpack:prod": "cross-env NODE_ENV=production webpack --mode production"
+        "webpack:prod": "cross-env NODE_ENV=production webpack --mode production",
+        "postinstall": "npm run webpack:prod --"
     },
     "devDependencies": {
         "@angular/animations": "^7.2.15",
         "@angular/common": "^7.2.15",
-        "@angular/compiler": "^7.2.15",
-        "@angular/compiler-cli": "^7.2.15",
         "@angular/core": "^7.2.15",
         "@angular/platform-browser": "^7.2.15",
         "@angular/platform-browser-dynamic": "^7.2.15",
@@ -39,12 +38,19 @@
         "style-loader": "^0.23.1",
         "to-string-loader": "^1.1.5",
         "ts-loader": "^4.0.0",
-        "typescript": "^3.2.4",
         "webpack": "^4.32.2",
         "webpack-cli": "^3.3.2",
         "webpack-dev-server": "^3.5.0",
         "webpack-merge": "^4.2.1",
         "zone.js": "^0.8.29"
     },
-    "dependencies": {}
+    "dependencies": {
+        "@angular/compiler": "^7.2.15",
+        "@angular/compiler-cli": "^7.2.15",
+        "typescript": "^3.2.4"
+    },
+    "engines": {
+        "node": "11.14.0",
+        "npm": "6.9.0"
+    }
 }

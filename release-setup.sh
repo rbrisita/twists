@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-composer install
 php artisan cache:clear
 php artisan config:cache
 php artisan event:cache
