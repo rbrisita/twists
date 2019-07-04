@@ -73,6 +73,11 @@ export class ListsComponent implements OnDestroy, OnInit {
         });
 
         this.subscription_selected_list = this.twist_service.getSelectedList().subscribe((list: List) => {
+            console.log('this.twist_service.getSelectedList', list);
+            if (!list) {
+                console.log('this.twist_service.getSelectedList UNDEFINED!');
+                return;
+            }
             this.selected_list = list;
             this.scrollToListMenuOption();
 

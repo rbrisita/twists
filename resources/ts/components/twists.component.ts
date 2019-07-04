@@ -17,6 +17,7 @@ import {
 
 import { EMPTY, Subscription } from 'rxjs';
 import { clearInterval, setInterval } from 'timers';
+import '../../../node_modules/foundation-sites/dist/js/foundation';
 
 import { AnalyticsService } from '../services/analytics.service';
 import { List } from '../models/list';
@@ -246,8 +247,13 @@ export class TwistsComponent implements OnDestroy, OnInit {
                 }
 
                 if (this.subsequent_lists.length) {
-                    this.lists = this.subsequent_lists;
-                    this.subsequent_lists = [];
+                    // On small devices the requests sometimes overwhelms the mobile browser.
+                    if (Foundation.MediaQuery.current === 'small') {
+                        this.lists = this.subsequent_lists.splice(0, 1);
+                    } else {
+                        this.lists = this.subsequent_lists;
+                        this.subsequent_lists = [];
+                    }
                     this.twitterLoad();
                 }
             });
@@ -640,6 +646,7 @@ export class TwistsComponent implements OnDestroy, OnInit {
         }
         return id;
     }
+
     /**
      * Return widget id from given refresh id.
      * @param refresh_id Id of refresh container to convert to a widget id.
@@ -659,7 +666,14 @@ export class TwistsComponent implements OnDestroy, OnInit {
         }
 
         const lists: List[] = topic.lists;
-        this.subsequent_lists = lists.slice(1);
+
+        // On small devices the requests sometimes overwhelms the mobile browser.
+        if (Foundation.MediaQuery.current === 'small') {
+            this.subsequent_lists = lists.slice(1).reverse();
+        } else {
+            this.subsequent_lists = lists.slice(1);
+        }
+
         this.list_in_view = lists[0];
         this.first_lists = [this.list_in_view];
         this.twist_service.setSelectedList(this.list_in_view);
@@ -667,13 +681,14 @@ export class TwistsComponent implements OnDestroy, OnInit {
     }
 
     private twitterLoad(): void {
-        setImmediate(() => {
+        setTimeout(() => {
             twttr.ready((twitter: Twitter) => {
+                console.log('twitter.widgets.load');
                 // 'twttr.widgets.load' is a overload method.
                 // @ts-ignore
                 twitter.widgets.load(this.getTwistsElement());
             });
-        });
+        }, 100);
     }
 
     ngOnDestroy(): void {
