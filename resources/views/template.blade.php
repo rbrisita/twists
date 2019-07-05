@@ -24,6 +24,9 @@
         gtag('config', 'UA-142688054-1');
     </script>
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Twists">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="apple-touch-icon" sizes="57x57" href="/imgs/ico/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/imgs/ico/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/imgs/ico/apple-icon-72x72.png">

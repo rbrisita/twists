@@ -20,6 +20,7 @@
         "@types/node": "^12.0.0",
         "@types/twitter-for-web": "0.0.1",
         "angular2-template-loader": "^0.6.2",
+        "autoprefixer": "^9.6.0",
         "clean-webpack-plugin": "^2.0.2",
         "core-js": "^2.6.5",
         "cross-env": "^5.2.0",
@@ -33,6 +34,7 @@
         "motion-ui": "^2.0.3",
         "node-sass": "^4.12.0",
         "optimize-css-assets-webpack-plugin": "^5.0.1",
+        "postcss-loader": "^3.0.0",
         "rxjs": "^6.5.1",
         "sass-loader": "^7.1.0",
         "style-loader": "^0.23.1",
@@ -52,5 +54,13 @@
     "engines": {
         "node": "11.14.0",
         "npm": "6.9.0"
-    }
+    },
+    "browserslist": [
+        "defaults",
+        "not ie < 11",
+        "last 2 versions",
+        "> 1%",
+        "iOS 7",
+        "last 3 iOS versions"
+    ]
 }

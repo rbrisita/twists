@@ -22,6 +22,13 @@ $grid-container-max: $global-width;
 @include foundation-prototype-rounded;
 @include foundation-prototype-shadow;
 
+// No user selection in web app.
+body {
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
 /**
 * Override Foundation button style.
 **/
@@ -100,7 +107,6 @@ header {
   font-weight: bold;
   line-height: 1;
   color: inherit;
-  user-select: none;
 }
 
 .topics__list {
@@ -283,6 +289,11 @@ $menu-hover-lines-border-width: 3px;
 * Overlays
 **/
 #colophon,
+#favorites {
+  -webkit-overflow-scrolling: touch;
+}
+
+#colophon,
 #favorites,
 #intro,
 #error {
@@ -292,7 +303,6 @@ $menu-hover-lines-border-width: 3px;
   > div:first-child p {
     color: white;
     font-weight: bolder;
-    user-select: none;
     -webkit-text-stroke: 1px #000000;
   }
 

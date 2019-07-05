@@ -63,6 +63,15 @@ module.exports = {
                 use: [
                     'to-string-loader',
                     { loader: 'css-loader', options: { sourceMap: is_dev } },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            sourceMap: is_dev,
+                            config: {
+                                path: 'postcss.config.js'
+                            }
+                        }
+                    },
                     { loader: 'sass-loader', options: { sourceMap: is_dev } }
                 ],
                 include: helpers.root('resources', 'ts')

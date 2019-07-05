@@ -26,6 +26,15 @@ module.exports = webpackMerge(commonConfig, {
                 use: [
                     { loader: 'style-loader', options: { sourceMap: true } },
                     { loader: 'css-loader', options: { sourceMap: true } },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            sourceMap: true,
+                            config: {
+                                path: 'postcss.config.js'
+                            }
+                        }
+                    },
                     { loader: 'sass-loader', options: { sourceMap: true } }
                 ],
                 include: helpers.root('resources', 'sass')
