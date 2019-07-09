@@ -21,7 +21,9 @@ export class HeaderComponent implements OnDestroy, OnInit {
         setImmediate(() => {
             // Remove tabindex to eliminate focus on header menu options.
             const arr: Element[] = this.element.nativeElement.querySelectorAll('li > a');
-            arr.forEach((item) => {
+            // Using 'Array.prototype.forEach.call' to resolve TypeError: elems.forEach is not a function
+            // On old Safari and IE browsers.
+            Array.prototype.forEach.call(arr, (item: any) => {
                 item.removeAttribute('tabindex');
             });
         });

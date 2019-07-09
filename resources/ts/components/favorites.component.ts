@@ -73,6 +73,7 @@ export class FavoritesComponent implements OnDestroy, OnInit {
      * @param event Click/Tap event exposing target to work on.
      */
     onSelect(event: Event) {
+        event.preventDefault();
         const elem: Element | null = event.target as Element;
         const card: Element | null = elem.closest('.card');
 
@@ -88,7 +89,9 @@ export class FavoritesComponent implements OnDestroy, OnInit {
      */
     private removeAllSelectedCards(): void {
         const elems = document.querySelectorAll('#favorites .card');
-        elems.forEach((elem) => {
+        // Using 'Array.prototype.forEach.call' to resolve TypeError: elems.forEach is not a function
+        // On old Safari and IE browsers.
+        Array.prototype.forEach.call(elems, (elem: any) => {
             elem.classList.remove('card--selected');
         });
     }
@@ -116,7 +119,9 @@ export class FavoritesComponent implements OnDestroy, OnInit {
     private handleClose(): void {
         const elems = document.querySelectorAll('#favorites .card--selected');
         const new_ids: Set<number> = new Set();
-        elems.forEach((elem) => {
+        // Using 'Array.prototype.forEach.call' to resolve TypeError: elems.forEach is not a function
+        // On old Safari and IE browsers.
+        Array.prototype.forEach.call(elems, (elem: any) => {
             const data_id: string | null = elem.getAttribute('data-id');
             if (data_id) {
                 new_ids.add(parseInt(data_id));
