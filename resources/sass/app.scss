@@ -266,11 +266,11 @@ header {
   > div:nth-child(1) > button {
     background-color: white;
     border-color: black;
-    height: 50px;
+    height: 30px;
     padding: unset;
     stroke: black;
-    top: 0.2rem;
-    width: 50px;
+    top: 1rem;
+    width: 30px;
   }
 
   @include breakpoint(medium) {
@@ -279,8 +279,10 @@ header {
     }
 
     > div:nth-child(1) > button {
+      height: 50px;
       right: 1rem;
       top: 2rem;
+      width: 50px;
     }
   }
 }
