@@ -32,6 +32,14 @@ export class TopicsComponent implements OnDestroy, OnInit {
 
     private subscription_topics: Subscription;
 
+    /**
+     * Touch context members.
+     */
+    private touch_elem: Element;
+    private touch_end_context: any;
+    private touch_move_context: any;
+    private touch_topic: Topic | null;
+
     constructor(
         private analytics_service: AnalyticsService,
         private change_detector: ChangeDetectorRef,
@@ -40,6 +48,11 @@ export class TopicsComponent implements OnDestroy, OnInit {
         this.favorite_topics = [];
         this.selected_topic_id = null;
         this.subscription_topics = EMPTY.subscribe();
+
+        this.touch_elem = document.createElement('object');
+        this.touch_end_context = this.handleTouchEnd.bind(this);
+        this.touch_move_context = this.handleTouchMove.bind(this);
+        this.touch_topic = null;
     }
 
     ngOnInit(): void {
@@ -49,9 +62,9 @@ export class TopicsComponent implements OnDestroy, OnInit {
 
             if (this.favorite_topics.length) {
                 // Dont' load default topic if one is already selected.
-                if (!document.querySelector('.topic--selected')) {
+                if (!document.querySelector('app-topics > ul > li.menu__item--selected')) {
                     setTimeout(() => {
-                        this.loadTopic(this.favorite_topics[0]);
+                        this.loadTopic(new Event('test'), this.favorite_topics[0]);
                     });
                 }
             } else {
@@ -72,11 +85,63 @@ export class TopicsComponent implements OnDestroy, OnInit {
     }
 
     /**
+     * Monitor other touch events to proceed with loading topic or not.
+     * @param event Touch start event.
+     * @param topic Topic that was touched.
+     */
+    handleTouchStart(event: TouchEvent, topic: Topic): void {
+        event.preventDefault();
+
+        console.log(`handleTouchStart: ${event.type} on ${((event.target) as HTMLElement).textContent}`);
+
+        this.touch_topic = topic;
+
+        this.touch_elem = event.target as Element;
+        if (this.touch_elem) {
+            this.touch_elem.addEventListener('touchmove', this.touch_move_context);
+            this.touch_elem.addEventListener('touchend', this.touch_end_context);
+        }
+    }
+
+    /**
+     * Cancel other events as this is an invalid event for touching a topic.
+     * @param event Touch move event.
+     */
+    handleTouchMove(event: Event): void {
+        event.preventDefault();
+        console.log(`handleTouchMove: ${event.type} on ${((event.target) as HTMLElement).textContent}`);
+
+        this.touch_topic = null;
+
+        this.touch_elem.removeEventListener('touchend', this.touch_end_context);
+        this.touch_elem.removeEventListener('touchmove', this.touch_move_context);
+    }
+
+    /**
+     * Proceed with loading the topic that was touch on the touch start event.
+     * @param event Touch end event.
+     */
+    handleTouchEnd(event: Event): void {
+        event.preventDefault();
+        console.log(`handleTouchEnd: ${event.type} on ${((event.target) as HTMLElement).textContent}`);
+
+        this.touch_elem.removeEventListener('touchend', this.touch_end_context);
+        this.touch_elem.removeEventListener('touchmove', this.touch_move_context);
+
+        if (this.touch_topic) {
+            this.loadTopic(event, this.touch_topic);
+            this.touch_topic = null;
+        }
+    }
+
+    /**
      * Load topic if it is not currently selected from the service and has lists.
      * Exposed to HTML template.
      * @param topic Topic to load from the service.
      */
-    loadTopic(topic: Topic): void {
+    loadTopic(event: Event, topic: Topic): void {
+        event.preventDefault();
+
         const id = topic.id;
         if (this.selected_topic_id === id && Foundation.MediaQuery.current === 'small') {
             $('#off-canvas').foundation('toggle');

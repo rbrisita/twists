@@ -52,11 +52,13 @@ a[href^="mailto:"]::before {
 /**
 * Custom
 **/
-*:focus {
+*:active,
+*:focus,
+*:hover,
+a:active,
+a:focus,
+a:hover {
   outline: none;
-}
-
-a:focus {
   color: unset;
 }
 
@@ -133,7 +135,7 @@ header {
   white-space: nowrap;
 }
 
-.list--selected {
+.menu__item--selected {
   background-color: #d3d3d3;
   border-radius: 2px;
   box-shadow: 0 10px 10px -7px rgba(0, 0, 0, 1);
@@ -232,61 +234,6 @@ header {
   > button {
     color: $base_color;
     z-index: 1;
-  }
-}
-
-/**
-* Menu hover for Topics section
-**/
-$menu-hover-lines-transition: all 0.35s ease;
-$menu-hover-lines-border-width: 3px;
-
-.menu-hover-lines {
-  transition: $menu-hover-lines-transition;
-
-  li a {
-    padding: 0.75rem 0;
-    color: $base_color;
-    position: relative;
-    margin-left: 1rem;
-    margin-right: 1rem;
-  }
-
-  li.topic--selected > a {
-    background-color: transparent;
-  }
-
-  a::before,
-  a::after {
-    height: $menu-hover-lines-border-width;
-    position: absolute;
-    content: "";
-    transition: $menu-hover-lines-transition;
-    background-color: $primary-color;
-    width: 0;
-  }
-
-  a::before {
-    top: 0;
-    left: 0;
-  }
-
-  a::after {
-    bottom: 0;
-    right: 0;
-  }
-
-  a:hover,
-  li.topic--selected > a {
-    color: $body-font-color;
-    transition: $menu-hover-lines-transition;
-  }
-
-  a:hover::before,
-  .topic--selected a::before,
-  a:hover::after,
-  .topic--selected a::after {
-    width: 100%;
   }
 }
 

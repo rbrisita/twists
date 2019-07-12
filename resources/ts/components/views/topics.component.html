@@ -1,7 +1,7 @@
 <h1 class="menu__title hide-for-small-only">Topics</h1>
-<ul class="menu topics__list menu-hover-lines">
-    <li class="h3 topic" *ngFor="let topic of favorite_topics" [class.topic--selected]="topic.id === selected_topic_id"
-        (click)="loadTopic(topic)">
+<ul class="menu topics__list">
+    <li class="h3 topic" *ngFor="let topic of favorite_topics" [class.menu__item--selected]="topic.id === selected_topic_id"
+        (click)="loadTopic($event, topic)" (touchstart)="handleTouchStart($event, topic)">
         <a>{{topic.html_display_name ? topic.html_display_name : topic.name}}</a>
     </li>
 </ul>

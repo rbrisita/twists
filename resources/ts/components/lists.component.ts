@@ -93,7 +93,7 @@ export class ListsComponent implements OnDestroy, OnInit {
      */
     private scrollToListMenuOption(): void {
         setImmediate(() => {
-            const el: Element | null = document.querySelector('#menu > app-lists > ul > li.list--selected');
+            const el: Element | null = document.querySelector('#menu > app-lists > ul > li.menu__item--selected');
             if (!el) {
                 return;
             }
