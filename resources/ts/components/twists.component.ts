@@ -435,6 +435,7 @@ export class TwistsComponent implements OnDestroy, OnInit {
         const new_list: string = `
         <a
         class="twitter-timeline"
+        data-chrome="nofooter"
         data-tweet-limit=20
         data-show-replies=true
         href="${this.list_url_pipe.transform(list)}">

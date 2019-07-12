@@ -5,7 +5,7 @@
         "importHelpers": true,
         "lib": [
             "dom",
-            "es6" // es2015, es6, es2018
+            "es6" // ES5, es2015, es6, es2018
         ],
         "module": "commonjs", // commonjs, es2015, esnext
         "moduleResolution": "node",

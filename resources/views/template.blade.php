@@ -1,12 +1,20 @@
 <!doctype html>
 <html lang="{{ app()->getLocale() }}">
 
-<head>
+<head prefix="og: http://ogp.me/ns#">
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
     <meta name="twitter:widgets:autoload" content="off">
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@twists_app" />
+    <meta name="twitter:creator" content="@rbrisita" />
+    <meta property="og:url" content="https://twists.herokuapp.com" />
+    <meta property="og:title" content="Twists: Popular Twitter Lists" />
+    <meta property="og:description" content="Consume lists without signing up or signing in." />
+    <meta property="og:image" content="https://via.placeholder.com/150" />
+
     <% for (var css in htmlWebpackPlugin.files.css) { %>
     <link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css[css] %>">
     <% } %>

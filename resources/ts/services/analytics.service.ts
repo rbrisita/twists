@@ -84,9 +84,9 @@ export class AnalyticsService {
         });
     }
 
-    viewColophon(): void {
+    viewAbout(): void {
         gtag('event', 'screen_view', {
-            screen_name: 'Colophon'
+            screen_name: 'About'
         });
     }
 

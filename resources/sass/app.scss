@@ -27,6 +27,7 @@ body {
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
+  overscroll-behavior: contain;
 }
 
 /**
@@ -42,6 +43,10 @@ body {
   &:focus {
     background-color: white;
   }
+}
+
+a[href^="mailto:"]::before {
+  content: "📧";
 }
 
 /**
@@ -288,12 +293,12 @@ $menu-hover-lines-border-width: 3px;
 /**
 * Overlays
 **/
-#colophon,
+#about,
 #favorites {
   -webkit-overflow-scrolling: touch;
 }
 
-#colophon,
+#about,
 #favorites,
 #intro,
 #error {
@@ -312,10 +317,13 @@ $menu-hover-lines-border-width: 3px;
   }
 
   > div:nth-child(1) > button {
-    border-color: white;
-    color: white;
-    font-size: 1rem;
-    top: 0.5rem;
+    background-color: white;
+    border-color: black;
+    height: 50px;
+    padding: unset;
+    stroke: black;
+    top: 0.2rem;
+    width: 50px;
   }
 
   @include breakpoint(medium) {
@@ -324,7 +332,19 @@ $menu-hover-lines-border-width: 3px;
     }
 
     > div:nth-child(1) > button {
+      right: 1rem;
       top: 2rem;
+    }
+  }
+}
+
+#about {
+  > div.grid-x.grid-padding-x.radius > div:nth-child(n + 5):nth-child(-n + 7) > ul {
+    margin-left: 0rem;
+  }
+  @include breakpoint(medium) {
+    > div.grid-x.grid-padding-x.radius > div:nth-child(n + 5):nth-child(-n + 7) > ul {
+      margin-left: 2rem;
     }
   }
 }

@@ -3,8 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { AboutComponent } from './components/about.component';
 import { AppComponent } from './components/app.component';
-import { ColophonComponent } from './components/colophon.component';
 import { ErrorComponent } from './components/error.component';
 import { FavoritesComponent } from './components/favorites.component';
 import { HeaderComponent } from './components/header.component';
@@ -25,8 +25,8 @@ import '../sass/app.scss';
         BrowserAnimationsModule
     ],
     declarations: [
+        AboutComponent,
         AppComponent,
-        ColophonComponent,
         ErrorComponent,
         FavoritesComponent,
         HeaderComponent,
