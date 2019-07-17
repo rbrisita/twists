@@ -1,10 +1,10 @@
 <div id="twists" [@fade]="fade_state" (@fade.done)="onAnimationEvent($event)" (click)="onRefresh($event)">
-    <a *ngFor="let list of first_lists" class="twitter-timeline" data-chrome="nofooter" data-tweet-limit=20 data-show-replies=true
-        href="{{list | listUrl}}">
+    <a *ngFor="let list of first_lists" class="twitter-timeline" data-chrome="nofooter" data-tweet-limit=20
+        data-show-replies=true href="{{list | listUrl}}">
         Loading {{list.name}} List by {{list.owner_screen_name}}...
     </a>
-    <a *ngFor="let list of lists" class="twitter-timeline" data-chrome="nofooter" data-tweet-limit=20 data-show-replies=true
-        href="{{list | listUrl}}">
+    <a *ngFor="let list of lists" class="twitter-timeline" data-chrome="nofooter" data-tweet-limit=20
+        data-show-replies=true href="{{list | listUrl}}">
         Loading {{list.name}} List by {{list.owner_screen_name}}...
     </a>
 </div>

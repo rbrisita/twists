@@ -683,6 +683,8 @@ export class TwistsComponent implements OnDestroy, OnInit {
 
     private twitterLoad(): void {
         setTimeout(() => {
+            this.ensureTimelineDataWidth();
+
             twttr.ready((twitter: Twitter) => {
                 console.log('twitter.widgets.load');
                 // 'twttr.widgets.load' is a overload method.
@@ -690,6 +692,25 @@ export class TwistsComponent implements OnDestroy, OnInit {
                 twitter.widgets.load(this.getTwistsElement());
             });
         }, 100);
+    }
+
+    /**
+     * For generated anchor links add data-width to surpass
+     * "Can't bind to 'width' since it isn't a known property of 'a'." error.
+     */
+    private ensureTimelineDataWidth(): void {
+        const width: string = this.getWidth() + 'px';
+        const elems: Element[] = this.elem_ref.nativeElement.querySelectorAll('a:not([data-width])');
+        Array.prototype.forEach.call(elems, (elem: any) => {
+            elem.setAttribute('data-width', width);
+        });
+    }
+
+    /**
+     * Get width of device minus Twitter padding.
+     */
+    private getWidth(): number {
+        return window.screen.width - 20;
     }
 
     ngOnDestroy(): void {
