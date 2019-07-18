@@ -110,10 +110,11 @@ header {
 }
 
 .menu__title {
-  padding: 0.7rem 1rem;
+  color: inherit;
+  display: inline-block;
   font-weight: bold;
   line-height: 1;
-  color: inherit;
+  padding: 0.7rem 1rem;
 }
 
 .topics__list {
@@ -166,6 +167,14 @@ header {
     box-shadow: -3px 3px 5px -3px black;
     left: initial;
     width: min-content;
+  }
+
+  #menu > app-topics > ul {
+    margin-top: 10px;
+  }
+
+  .menu__title {
+    display: unset;
   }
 
   .top-menu-left {
@@ -226,15 +235,24 @@ header {
   }
 }
 
-#off-canvas {
-  &.position-right {
-    overflow-y: unset; // Test if this is needed
+#topics--off-canvas,
+#lists--off-canvas {
+  > .close-button {
+    color: 0;
   }
 
   > button {
     color: $base_color;
     z-index: 1;
   }
+}
+
+#menu > h1:nth-child(1) {
+  float: left;
+}
+
+#menu > h1:nth-child(4) {
+  float: right;
 }
 
 /**

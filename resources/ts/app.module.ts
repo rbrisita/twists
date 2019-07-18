@@ -10,9 +10,11 @@ import { FavoritesComponent } from './components/favorites.component';
 import { HeaderComponent } from './components/header.component';
 import { IntroComponent } from './components/intro.component';
 import { ListsComponent } from './components/lists.component';
+import { ListsOverlayComponent } from './components/lists-overlay.component';
 import { ListUrlPipe } from './pipes/list_url.pipe';
 import { ListWidgetIdPipe } from './pipes/list_widget-id.pipe';
 import { TopicsComponent } from './components/topics.component';
+import { TopicsOverlayComponent } from './components/topics-overlay.component';
 import { TwistsComponent } from './components/twists.component';
 
 // Import styles so they can be processed by Webpack
@@ -32,9 +34,11 @@ import '../sass/app.scss';
         HeaderComponent,
         IntroComponent,
         ListsComponent,
+        ListsOverlayComponent,
         ListUrlPipe,
         ListWidgetIdPipe,
         TopicsComponent,
+        TopicsOverlayComponent,
         TwistsComponent
     ],
     bootstrap: [AppComponent]

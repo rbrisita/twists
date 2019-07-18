@@ -73,7 +73,6 @@ export class ListsComponent implements OnDestroy, OnInit {
         });
 
         this.subscription_selected_list = this.twist_service.getSelectedList().subscribe((list: List) => {
-            console.log('this.twist_service.getSelectedList', list);
             if (!list) {
                 console.log('this.twist_service.getSelectedList UNDEFINED!');
                 return;
@@ -93,6 +92,7 @@ export class ListsComponent implements OnDestroy, OnInit {
      */
     private scrollToListMenuOption(): void {
         setImmediate(() => {
+            // TODO: Off canvas menu won't scroll because of '#menu >'
             const el: Element | null = document.querySelector('#menu > app-lists > ul > li.menu__item--selected');
             if (!el) {
                 return;
@@ -142,7 +142,7 @@ export class ListsComponent implements OnDestroy, OnInit {
         }
 
         if (Foundation.MediaQuery.current === 'small') {
-            const topics: HTMLElement | null = document.querySelector('app-topics > ul');
+            const topics: HTMLElement | null = document.querySelector('#menu');
             if (topics) {
                 height += topics.scrollHeight;
             }

@@ -1,0 +1,7 @@
+<h1 class="menu__title">Lists</h1>
+<ul class="menu vertical lists__list">
+    <li class="h5 list" *ngFor="let list of lists" [class.menu__item--selected]="selected_list === list"
+        (click)="scrollToList(list)">
+        <a>{{list.name}} <span class="h6">{{' by ' + list.owner_screen_name}}</span></a>
+    </li>
+</ul>

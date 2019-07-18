@@ -33,4 +33,9 @@ export class AppComponent implements OnInit {
             this.fade_state = 'shown';
         });
     }
+
+    /**
+     * Resolves bug where click/tap event wasn't happening for Foundation data attribute.
+     */
+    handleOffCanvas(): void { }
 }
