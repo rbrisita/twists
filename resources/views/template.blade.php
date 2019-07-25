@@ -13,7 +13,7 @@
     <meta property="og:url" content="https://twists.herokuapp.com" />
     <meta property="og:title" content="Twists: Popular Twitter Lists" />
     <meta property="og:description" content="Consume lists without signing up or signing in." />
-    <meta property="og:image" content="https://via.placeholder.com/150" />
+    <meta property="og:image" content="http://twists.herokuapp.com/imgs/ico/apple-icon-152x152.png" />
 
     <% for (var css in htmlWebpackPlugin.files.css) { %>
     <link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css[css] %>">
