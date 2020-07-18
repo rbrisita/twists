@@ -29,7 +29,7 @@
         "html-loader": "^0.5.5",
         "html-webpack-plugin": "^3.2.0",
         "jquery": "^3.2",
-        "lodash": "^4.17.5",
+        "lodash": "^4.17.19",
         "mini-css-extract-plugin": "^0.7.0",
         "motion-ui": "^2.0.3",
         "node-sass": "^4.12.0",
